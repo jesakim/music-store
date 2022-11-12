@@ -36,11 +36,11 @@
           ?>
       <form action="script.php" id="formbody" class="mb-2" method="post">
         <div class="form-outline mb-4">
-            <input type="text" id="loginName" name="loginemail" class="rounded-pill w-100" required oninvalid="setCustomValidity('Please Entre Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
+            <input type="email" id="loginName" name="loginemail" class="rounded-pill w-100" placeholder=" " required oninvalid="setCustomValidity('Please Entre A Valid Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
             <label class="form-label" for="loginName" id="NameLabel">Email</label>
         </div>
         <div class="form-outline">
-            <input type="password" id="loginPassword" name="loginpass" class="rounded-pill w-100" required onkeyup="counter()" oninvalid="setCustomValidity('Please Entre Password');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
+            <input type="password" id="loginPassword" name="loginpass" class="rounded-pill w-100" placeholder=" " required onkeyup="counter()" oninvalid="setCustomValidity('Please Entre Password');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
             <label class="form-label" for="loginPassword" id="PasswordLabel">Password</label>
             <span class="input-group-append" id="icon1">
                 <i class="fa-regular fa-eye text-white p-2" onclick="displayPassword()"></i>
@@ -88,11 +88,11 @@ function signinF(){
     document.getElementById("buttonS").style.color = "#D6FFB7",
     document.getElementById("formbody").innerHTML = `
     <div class="form-outline mb-4">
-            <input type="text" id="loginName" name="loginemail" class="rounded-pill w-100" required oninvalid="setCustomValidity('Please Entre Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
+            <input type="email" id="loginName" name="loginemail" class="rounded-pill w-100" placeholder=" " required oninvalid="setCustomValidity('Please Entre A Valid Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
             <label class="form-label" for="loginName" id="NameLabel">Email</label>
         </div>
         <div class="form-outline">
-            <input type="password" id="loginPassword" name="loginpass" class="rounded-pill w-100" required onkeyup="counter()" oninvalid="setCustomValidity('Please Entre Password');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
+            <input type="password" id="loginPassword" name="loginpass" class="rounded-pill w-100" placeholder=" " required onkeyup="counter()" oninvalid="setCustomValidity('Please Entre Password');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
             <label class="form-label" for="loginPassword" id="PasswordLabel">Password</label>
             <span class="input-group-append" id="icon1">
                 <i class="fa-regular fa-eye text-white p-2" onclick="displayPassword()"></i>
@@ -118,19 +118,19 @@ function registerF(){
     document.getElementById("buttonR").style.color = "#D6FFB7",
     document.getElementById("formbody").innerHTML = `
     <div class="form-outline mb-4">
-        <input type="text" id="loginName" name="username" class="rounded-pill w-100" required onkeydown="forceLower(this)" onkeyup="forceLower(this)" oninvalid="setCustomValidity('Please Entre UserName');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red';" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
+        <input type="text" id="loginName" name="username" class="rounded-pill w-100" placeholder=" " required onkeydown="forceLower(this)" onkeyup="forceLower(this)" oninvalid="setCustomValidity('Please Entre UserName');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red';" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
         <label class="form-label" for="loginName">UserName</label>
     </div>
     <div class="form-outline mb-4">
-        <input type="text" id="loginEmail" name="email" class="rounded-pill w-100" required oninvalid="setCustomValidity('Please Entre Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red';" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40';"/>
+        <input type="email" id="loginEmail" name="email" class="rounded-pill w-100" placeholder=" " required oninvalid="setCustomValidity('Please Entre A Valid Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red';" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
         <label class="form-label" for="loginName">Email</label>
     </div>
     <div class="form-outline mb-4">
-        <input type="password" id="FPassword" name="password" class="rounded-pill w-100" required oninvalid="setCustomValidity('Please Entre Password');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red';" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
+        <input type="password" id="FPassword" name="password" class="rounded-pill w-100" placeholder=" " required oninvalid="setCustomValidity('Please Entre Password');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red';" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
         <label class="form-label" for="Password">Password</label>
     </div>
     <div class="form-outline">
-        <input type="password" id="RPassword" name="rpassword" class="rounded-pill w-100" required oninvalid="setCustomValidity('The Passwords Are Not Identical');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" onkeyup="rpass(this)" onkeydown="rpass(this)" />
+        <input type="password" id="RPassword" name="rpassword" class="rounded-pill w-100" placeholder=" " required onkeyup="rpass(this)" onkeydown="rpass(this)" oninvalid="setCustomValidity('The Passwords Are Not Identical');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'"/>
         <label class="form-label" for="Password" id="PasswordLabel">Repeat Password</label>
     </div>
           <!-- Checkbox -->
@@ -151,7 +151,7 @@ function counter(){
 function passReset(){
     document.getElementById("formbody").innerHTML = `
     <div class="form-outline mb-4">
-        <input type="text" id="loginEmail" class="rounded-pill w-100" required oninvalid="setCustomValidity('Please Entre Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
+        <input type="email" id="loginEmail" class="rounded-pill w-100" placeholder=" " required oninvalid="setCustomValidity('Please Entre A Valid Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
         <label class="form-label" for="loginName">Email To Reset Password</label>
     </div>
     <button type="submit" id="button" name="passres" class="btn w-100 mb-4 rounded-pill">Reset Password</button>
@@ -171,12 +171,17 @@ async function hidealertmsg(){
 }
 function forceLower(strInput) {
     strInput.value=strInput.value.toLowerCase();
+    strInput.value=strInput.value.replace(/[_^$@#?]/g, charactersToReplace => ({'^': '', '_': '', '$' : '','@': '', '#': '', '?' : '' })[charactersToReplace]);
+    strInput.value=strInput.value.replace(/\s+/g,' ');
 }
 function rpass(inp){
     if(inp.value == document.getElementById("FPassword").value){
     inp.setCustomValidity('');
     inp.style.border = '#D6FFB7 solid 2px';
-    inp.nextElementSibling.style.color = '#3A5A40';}else{
+    inp.nextElementSibling.style.color = '#3A5A40';
+    }else{
+        inp.style.border = 'red solid 2px';
+        inp.nextElementSibling.style.color = 'red';
         inp.setCustomValidity('The Passwords Are Not Identical');
     }
 }
