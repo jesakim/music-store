@@ -1,6 +1,8 @@
-<?php  
-    include("script.php");
-    
+<?php
+        include('script.php');
+        if(!isset($_SESSION['user'])){
+              header('Location: signin.php');
+        }
 
 ?>
 <!DOCTYPE html>
@@ -10,180 +12,256 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,300&display=swap" rel="stylesheet">
-    <link rel="icon" type="" href="img/icon.png">
-    <link rel="stylesheet" href="style.css">
-    <title>Sign In Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <title>Music Store</title>
 </head>
 <body>
-    <div class="containe">
-        <ul class="d-flex justify-content-between mb-4 p-0">
-            <li id="buttonS" class="btn my-3 w-50 me-2 ms-0 rounded-pill" onclick="signinF()">Sign In</li>
-            <li id="buttonR" class="btn my-3 w-50 ms-2 rounded-pill" onclick="registerF()">Register Now</li>
-        </ul>
-        <?php if (isset($_SESSION['message'])){
-				echo '<div style="background-color: '.$_SESSION["bgcolor"].';color:#3A5A40" class="alert alert-dismissible fade show rounded-pill py-2" id="alert" >
-                <i class="'.$_SESSION['icon'].'"></i>
-				<strong>'.$_SESSION['headmsg'].'</strong> 
-						'. $_SESSION["message"].'
-						
-					</div>';
-				unset($_SESSION['message']);
-				unset($_SESSION['icon']);
-				unset($_SESSION['headmsg']);
-				unset($_SESSION['bgcolor']);};
-          ?>
-      <form action="script.php" id="formbody" class="mb-2" method="post">
-        <div class="form-outline mb-4">
-            <input type="email" id="loginName" name="loginemail" class="rounded-pill w-100" placeholder=" " required oninvalid="setCustomValidity('Please Entre A Valid Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
-            <label class="form-label" for="loginName" id="NameLabel">Email</label>
+<div style="background-color: #3A5A40;" class="navbar">
+  <div class="container-fluid">
+    <a style="color: #D6FFB7;" class="navbar-brand" href="#">Music Store</a>
+    <div class="d-flex">
+    <div class="dropdown text-end mt-1 me-3 align-items-center">
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="img/icon.png" alt="mdo" width="32" height="32" class="rounded-circle">
+            <span><?php echo $_SESSION['user']['username']?></span>
+          </a>
+          
+          <ul class="dropdown-menu text-small" style="color: #3A5A40;background-color: #D6FFB7;">
+            <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Product</button></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><form action="script.php" method="post"><input class="dropdown-item bg-danger" type="submit" name="signout" value="Sign out"/></form></li>
+          </ul>
         </div>
-        <div class="form-outline">
-            <input type="password" id="loginPassword" name="loginpass" class="rounded-pill w-100" placeholder=" " required onkeyup="counter()" oninvalid="setCustomValidity('Please Entre Password');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
-            <label class="form-label" for="loginPassword" id="PasswordLabel">Password</label>
-            <span class="input-group-append" id="icon1">
-                <i class="fa-regular fa-eye text-white p-2" onclick="displayPassword()"></i>
-            </span>
-            <span class="input-group-append" id="icon2">
-                <i class="fa-regular fa-eye-slash text-white p-2" onclick="hidePassword()"></i>
-            </span>
-          </div>
-              <!-- Checkbox -->
-              <div class="my-3 d-flex justify-content-between">
-                <div class="form-check form-switch ms-4">
-                <input id="flexSwitchCheckDefault" class="form-check-input" type="checkbox" value=""/>
-                <label class="form-check-label text-white" for="loginCheck">Remember me</label></div>
-                <button style="color: #D6FFB7;" class="btn me-4 bg-transparent p-0" onclick="passReset()">Forgot password?</button>
-              </div>
-        <button type="submit" id="button" name="signin" class="btn w-100 mb-4 rounded-pill">Sign in</button>
-      </form>
-      <div class="text-center">
-        <p class="text-white">Or Sign In With :</p>
-        <ul class="nav d-flex justify-content-evenly">
-            <li id="button" class="btn rounded-circle px-3"><i  class="fa-brands fa-facebook-f"></i></li>
-            <li id="button" class="btn rounded-circle"><i  class="fa-brands fa-twitter"></i></li>
-            <li id="button" class="btn rounded-circle"><i  class="fa-brands fa-google"></i></li>
-            <li id="button" class="btn rounded-circle"><i  class="fa-brands fa-github"></i></li>
+    <button class="navbar-toggler text-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+      <i class="fa-solid fa-bars "></i>
+    </button>
+  </div>
+    <div class="offcanvas offcanvas-start text-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 style="color: #3A5A40;" class="offcanvas-title" id="offcanvasDarkNavbarLabel">Music Store</h5>
+        <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a style="color: #3A5A40;" class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a style="color: #3A5A40;" class="nav-link" href="#">Dachboard</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a style="color: #3A5A40;" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Products
+            </a>
+            <ul style="color: #3A5A40;background-color: #D6FFB7;" class="dropdown-menu dropdown-menu">
+              <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Product</button></li>
+              <li><a class="dropdown-item" href="#">Check Stock</a></li>
+            </ul>
+          </li>
         </ul>
-    </div>
+        <form class="d-flex mt-3" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button style="color: #D6FFB7;background-color: #3A5A40;box-shadow:none" class="btn" type="submit">Search</button>
+        </form>
+      </div>
     </div>
     
-</body>
-<script >
-    function displayPassword(){
-    document.getElementById("icon1").style.display = "none"
-    document.getElementById("icon2").style.display = "block"
-    document.getElementById("loginPassword").removeAttribute("type")
-}
-function hidePassword(){
-    document.getElementById("icon2").style.display = "none"
-    document.getElementById("icon1").style.display = "block"
-    document.getElementById("loginPassword").setAttribute("type","password")
-}
-function signinF(){
-    document.getElementById("buttonS").style.backgroundColor = "#3A5A40",
-    document.getElementById("buttonR").style.backgroundColor = "#D6FFB7",
-    document.getElementById("buttonR").style.color = "#3A5A40",
-    document.getElementById("buttonS").style.color = "#D6FFB7",
-    document.getElementById("formbody").innerHTML = `
-    <div class="form-outline mb-4">
-            <input type="email" id="loginName" name="loginemail" class="rounded-pill w-100" placeholder=" " required oninvalid="setCustomValidity('Please Entre A Valid Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
-            <label class="form-label" for="loginName" id="NameLabel">Email</label>
-        </div>
-        <div class="form-outline">
-            <input type="password" id="loginPassword" name="loginpass" class="rounded-pill w-100" placeholder=" " required onkeyup="counter()" oninvalid="setCustomValidity('Please Entre Password');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
-            <label class="form-label" for="loginPassword" id="PasswordLabel">Password</label>
-            <span class="input-group-append" id="icon1">
-                <i class="fa-regular fa-eye text-white p-2" onclick="displayPassword()"></i>
-            </span>
-            <span class="input-group-append" id="icon2">
-                <i class="fa-regular fa-eye-slash text-white p-2" onclick="hidePassword()"></i>
-            </span>
-          </div>
-              <!-- Checkbox -->
-              <div class="my-3 d-flex justify-content-between">
-                <div class="form-check form-switch ms-4">
-                <input id="flexSwitchCheckDefault" class="form-check-input" type="checkbox" value=""/>
-                <label class="form-check-label text-white" for="loginCheck">Remember me</label></div>
-                <button style="color: #D6FFB7;" class="btn me-4 bg-transparent p-0" onclick="passReset()">Forgot password?</button>
-              </div>
-        <button type="submit" id="button" name="signin" class="btn w-100 mb-4 rounded-pill">Sign in</button>
-    `
-}
-function registerF(){
-    document.getElementById("buttonR").style.backgroundColor = "#3A5A40",
-    document.getElementById("buttonS").style.backgroundColor = "#D6FFB7",
-    document.getElementById("buttonS").style.color = "#3A5A40",
-    document.getElementById("buttonR").style.color = "#D6FFB7",
-    document.getElementById("formbody").innerHTML = `
-    <div class="form-outline mb-4">
-        <input type="text" id="loginName" name="username" class="rounded-pill w-100" placeholder=" " required onkeydown="forceLower(this)" onkeyup="forceLower(this)" oninvalid="setCustomValidity('Please Entre UserName');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red';" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
-        <label class="form-label" for="loginName">UserName</label>
-    </div>
-    <div class="form-outline mb-4">
-        <input type="email" id="loginEmail" name="email" class="rounded-pill w-100" placeholder=" " required oninvalid="setCustomValidity('Please Entre A Valid Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red';" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
-        <label class="form-label" for="loginName">Email</label>
-    </div>
-    <div class="form-outline mb-4">
-        <input type="password" id="FPassword" name="password" class="rounded-pill w-100" placeholder=" " required oninvalid="setCustomValidity('Please Entre Password');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red';" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
-        <label class="form-label" for="Password">Password</label>
-    </div>
-    <div class="form-outline">
-        <input type="password" id="RPassword" name="rpassword" class="rounded-pill w-100" placeholder=" " required onkeyup="rpass(this)" onkeydown="rpass(this)" oninvalid="setCustomValidity('The Passwords Are Not Identical');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'"/>
-        <label class="form-label" for="Password" id="PasswordLabel">Repeat Password</label>
-    </div>
-          <!-- Checkbox -->
-          <div class="form-check form-switch my-3 ms-3">
-            <input id="flexSwitchCheckDefault" class="form-check-input" type="checkbox" value="" id="loginCheck"/>
-            <label class="form-check-label text-white" for="loginCheck">I Have Read And Agree To The Terms</label>
-          </div>
-    <button type="submit" id="button" name="register" class="btn w-100 mb-4 rounded-pill">Register</button>`
-}
-function counter(){
-    $value = document.getElementById("loginPassword").value;
-    if($value.length != 0){
-        document.getElementById("PasswordLabel").innerText = "Password("+ $value.length +")"
-    }else{
-        document.getElementById("PasswordLabel").innerText = "Password"; 
-    } 
-}
-function passReset(){
-    document.getElementById("formbody").innerHTML = `
-    <div class="form-outline mb-4">
-        <input type="email" id="loginEmail" class="rounded-pill w-100" placeholder=" " required oninvalid="setCustomValidity('Please Entre A Valid Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
-        <label class="form-label" for="loginName">Email To Reset Password</label>
-    </div>
-    <button type="submit" id="button" name="passres" class="btn w-100 mb-4 rounded-pill">Reset Password</button>
+  </div>
+</div>
+<div style="background-color:#D6FFB7;color: #3A5A40;" class="text-dark p-3 d-flex justify-content-between align-items-center">
+<div class="fs-5">DashBoard</div>
+<div style="font-family: Orbitron;" id="MyClockDisplay" class="clock fs-6"></div>
+</div>
+<div class="row align-items-center w-100">
+<div class="card col-12 col-md-6 p-0 mb-2">
 
-`
-}
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-setTimeout(hidealertmsg, 5000);
-async function hidealertmsg(){
-    for(let i=0; i < 10; i++){
-    document.getElementById("alert").style.opacity = 1-(i*0.1);
-    await sleep(100);    
-}
-    document.getElementById("alert").style.display = 'none';
-}
-function forceLower(strInput) {
-    strInput.value=strInput.value.toLowerCase();
-    strInput.value=strInput.value.replace(/[_^$@#?]/g, charactersToReplace => ({'^': '', '_': '', '$' : '','@': '', '#': '', '?' : '' })[charactersToReplace]);
-    strInput.value=strInput.value.replace(/\s+/g,' ');
-}
-function rpass(inp){
-    if(inp.value == document.getElementById("FPassword").value){
-    inp.setCustomValidity('');
-    inp.style.border = '#D6FFB7 solid 2px';
-    inp.nextElementSibling.style.color = '#3A5A40';
-    }else{
-        inp.style.border = 'red solid 2px';
-        inp.nextElementSibling.style.color = 'red';
-        inp.setCustomValidity('The Passwords Are Not Identical');
+<div class="card-body">
+  <h5 class="card-title">Sales <span>| Today</span></h5>
+
+  <div class="d-flex align-items-center">
+    <div style="background-color: #E1AA7D;height: 80px;width: 80px;" class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+    <i class="fa-solid fa-cart-shopping text-white fs-3"></i>
+    </div>
+    <div class="ps-3">
+      <h3>145</h3>
+      <span class="text-success pt-1 fs-6">12%</span><span class="text-muted small pt-2 ps-1">increase</span>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="card col-12 col-md-6 p-0 mb-2">
+
+<div class="card-body">
+  <h5 class="card-title">Products</h5>
+
+  <div class="d-flex align-items-center">
+    <div style="background-color: #E1AA7D;height: 80px;width: 80px;" class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+    <i class="fa-solid fa-boxes-stacked text-white fs-3"></i>
+    </div>
+    <div class="ps-4">
+      <h3>145</h3>
+    </div>
+  </div>
+</div>
+</div>
+<div class="card col-12 col-md-6 p-0">
+
+<div class="card-body">
+  <h5 class="card-title">RasLmale</h5>
+
+  <div class="d-flex align-items-center">
+    <div style="background-color: #E1AA7D;height: 80px;width: 80px;" class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+    <i class="fa-solid fa-coins text-white fs-3"></i>
+    </div>
+    <div class="ps-4">
+      <h3>145</h3>
+      <span class="text-success pt-1 fs-6">12%</span><span class="text-muted small pt-2 ps-1">increase</span>
+    </div>
+  </div>
+</div>
+</div>
+<div class="card col-12 col-md-6 p-0">
+
+<div class="card-body">
+  <h5 class="card-title">Check Stock</h5>
+
+  <div class="d-flex align-items-center">
+    <div style="background-color: #E1AA7D;height: 80px;width: 80px;" class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+    <i class="fa-solid fa-arrow-trend-down text-white fs-3"></i>
+    </div>
+    <div class="ps-4">
+      <h3>145</h3>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<div style="background-color:#D6FFB7;" class="p-3 fs-5 d-flex justify-content-between align-items-center">
+<div>Products</div>
+<button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill p-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  <span class="p-3 text-white"><i class="fa-solid fa-plus me-2 fs-6"></i>Add Product</span>
+</button>
+</div>
+<div class="row align-items-center w-100">
+
+<div class="card col-6 col-md-4 col-lg-3 p-0 mb-2">
+  <img class="card-img-top" src="img/bg1.jpg" alt="Card image">
+  <div class="card-body">
+    <h4 class="card-title">John Doe</h4>
+    <p class="card-text">Some example text.</p>
+    <a href="#" class="btn btn-primary">See Profile</a>
+  </div>
+  </div>
+
+  <div class="card col-6 col-md-4 col-lg-3 p-0 mb-2">
+  <img class="card-img-top" src="img/bg1.jpg" alt="Card image">
+  <div class="card-body">
+    <h4 class="card-title">John Doe</h4>
+    <p class="card-text">Some example text.</p>
+    <a href="#" class="btn btn-primary">See Profile</a>
+  </div>
+  </div>
+
+  <div class="card col-6 col-md-4 col-lg-3 p-0 mb-2">
+  <img class="card-img-top" src="img/bg1.jpg" alt="Card image">
+  <div class="card-body">
+    <h4 class="card-title">John Doe</h4>
+    <p class="card-text">Some example text.</p>
+    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit<i class="fa-solid fa-pen ms-1 fs-6"></i></a>
+    <a class="btn btn-danger">Delete<i class="fa-solid fa-trash-can ms-1 fs-6"></i></a>
+  </div>
+  </div>
+
+</div>
+
+
+<!-- modal -->
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="" method="post">
+      <div class="modal-body">
+      <div class="input-group">
+        <div class="mb-3">
+            <input type="file" class="form-control"/>
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control form-control-sm" id="floatingInput" placeholder=" ">
+        <label for="floatingInput" >Name</label>
+      </div>
+      <div class="form-floating mb-3">
+        <textarea class="form-control" placeholder=" " id="floatingTextarea"></textarea>
+        <label for="floatingTextarea">Description</label>
+      </div>
+      <div class="d-flex justify-content-between">
+      <div class="form-floating mb-3">
+        <input type="number" class="form-control form-control-sm " id="floatingInput" placeholder=" ">
+        <label for="floatingInput" >Price</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="number" class="form-control form-control-sm " id="floatingInput" placeholder=" ">
+        <label for="floatingInput" >Quantity</label>
+      </div>
+    </div>
+    <select class="form-select" aria-label="Default select example">
+      <option value="1">One</option>
+      <option value="2">Two</option>
+      <option value="3">Three</option>
+    </select>
+      </div>
+      <div class="modal-footer">
+        <button style="background-color:#8c1c13;border:none;" type="button" class="btn rounded-pill text-white" data-bs-dismiss="modal">Close</button>
+        <button style="background-color:#3A5A40;border:none;" type="button" class="btn rounded-pill text-white">Add Product</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+</body>
+<script src="https://kit.fontawesome.com/16f6b89e3c.js" crossorigin="anonymous"></script>
+<script>
+  function showTime(){
+    var date = new Date();
+    var h = date.getHours(); // 0 - 23
+    var m = date.getMinutes(); // 0 - 59
+    var s = date.getSeconds(); // 0 - 59
+    var session = "AM";
+    
+    if(h == 0){
+        h = 12;
     }
+    
+    if(h > 12){
+        h = h - 12;
+        session = "PM";
+    }
+    
+    h = (h < 10) ? "0" + h : h;
+    m = (m < 10) ? "0" + m : m;
+    s = (s < 10) ? "0" + s : s;
+    
+    var time = h + ":" + m + ":" + s + " " + session;
+    document.getElementById("MyClockDisplay").innerText = time;
+    
+    setTimeout(showTime, 1000);
+    
 }
+showTime();
 </script>
 </html>

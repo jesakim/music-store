@@ -5,6 +5,12 @@
 
     if(isset($_POST['signin'])) singin();
     if(isset($_POST['register'])) register();
+    if(isset($_POST['signout'])){
+        session_destroy();
+        unset($_SESSION['user']);
+        header('location:signin.php');
+    };
+
     
 
     
@@ -16,18 +22,22 @@
         $loginpass = datacheck($_POST['loginpass']);
         $loginreq = "SELECT * FROM `users` where email = '$loginemail' and password = '$loginpass';";
         $res = mysqli_query($conn, $loginreq);
+        $rest = mysqli_fetch_assoc($res);
         if(mysqli_num_rows($res)!=0){
-          $_SESSION['message'] = 'Your Logged In Now';
-        $_SESSION['bgcolor'] = '#D6FFB7';
-        $_SESSION['headmsg'] = 'Success!';
-        $_SESSION['icon'] = 'fa-solid fa-check';
+            $_SESSION['user']= $rest;
+            $_SESSION['message'] = 'Your Logged In Now';
+            $_SESSION['bgcolor'] = '#F8D7DA';
+            $_SESSION['headmsg'] = 'Failure!';
+            $_SESSION['icon'] = 'fa-solid fa-xmar';
+            echo $_SESSION['userid'];
+            header('Location: index.php');
         }else{
             $_SESSION['message'] = 'Your Not Logged In Now';
         $_SESSION['bgcolor'] = '#F8D7DA';
         $_SESSION['headmsg'] = 'Failure!';
         $_SESSION['icon'] = 'fa-solid fa-xmar';
         }
-        header('Location: index.php');
+        
     }
     function register(){
         global $conn;
