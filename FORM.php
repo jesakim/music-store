@@ -1,8 +1,9 @@
 <?php
+    session_start();
     include("db.php");
     global $conn;
-    if(isset($_POST['addpro']))  
-    {
+    if(isset($_POST['addpro']))  addpro();
+    function addpro(){
         global $conn;
         $name = $_POST['name'];
         $desc = $_POST['desc'];
@@ -18,16 +19,9 @@
 
         $sql = "INSERT INTO `products`(`name`, `description`, `price`, `quantity`, `img`)
         VALUES ('$name','$desc','$price','$quantity','$NewImageName')";
-        $res = mysqli_query($conn, $sql);
-        if($res){
-            echo "<script>alert('produit ajouté avec succées')</script>";
-        }else{
-            echo "error";
-        }
-
+        mysqli_query($conn, $sql);
     }
-    
-
+    echo '12'*'2';
 ?>
 
 
@@ -67,10 +61,17 @@
         <label for="floatingInput" >Quantity</label>
       </div>
     </div>
-    <select class="form-select" aria-label="Default select example" name="gendre">
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+    <select class="form-select" aria-label="Default select example" name="category">
+      <?php  
+            global $conn;
+
+            $sql = 'SELECT * FROM `categories`';
+            $RES = mysqli_query($conn,$sql);
+            
+            while($row = mysqli_fetch_assoc($RES)){
+              echo '<option value="'.$row['id'].'">'.$row['category-name'].'</option>';
+            }
+      ?>
     </select>
       </div>
       <div class="modal-footer">

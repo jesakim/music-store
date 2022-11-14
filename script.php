@@ -5,17 +5,101 @@
 
     if(isset($_POST['signin'])) singin();
     if(isset($_POST['register'])) register();
-    if(isset($_POST['signout'])){
+    if(isset($_POST['signout'])) signout();
+    if(isset($_POST['addpro']))  addpro();
+    if(isset($_POST['editpro']))  editpro();
+    if(isset($_POST['delete']))  deletepro();
+    if(isset($_POST['tocheck']))  checkstock();
+    function checkstock(){
+          global $conn;
+          $userid = $_SESSION['user']['id'];
+          $ntc = 5;
+          $sql = "SELECT * FROM `products` WHERE `user-id`= $userid and `quantity` <= $ntc ";
+          $res = mysqli_query($conn, $sql);
+          if(mysqli_num_rows($res)==0){
+            echo '<dt class="ms-2">There Is No Quantity Below 5</dt>';
+          }else{while($row = mysqli_fetch_assoc($res)){
+              echo '<dt class="ms-2">'.$row['name'].'</dt>
+                    <dd class="ms-2 text-danger">- Quantity : '.$row['quantity'].'</dd>';
+          }}
+    }
+    function raslmale(){
+        global $conn;
+          $userid = $_SESSION['user']['id'];
+          $raslmal = 0;
+          $sql = "SELECT * FROM `products` WHERE `user-id`= $userid ";
+          $res = mysqli_query($conn, $sql);
+          while($row = mysqli_fetch_assoc($res)){
+            $raslmal += $row['price'] * $row['quantity'];
+          }
+          return $raslmal;
+    }
+    function signout(){
         session_destroy();
-        unset($_SESSION['user']);
         header('location:signin.php');
     };
+    function deletepro(){
+        global $conn;
+        $id = $_POST['task-id1'];
+        $sql = "DELETE FROM `products` WHERE `id` = $id";
+        mysqli_query($conn, $sql);
+        header('location:index.php');
+    }
+    function editpro(){
+        global $conn;
+        $name = $_POST['name'];
+        $desc = $_POST['desc'];
+        $price = $_POST['price'];
+        $quantity = $_POST['quantity'];
+        $category = $_POST['category'];
+        $imagen = $_POST['imginput'];
+        $id = $_POST['idinput'];
+        $image = $_FILES['image'];
+        if(!empty($image['name'])){
+            $NewImageName = "proimg-".$image['name'];
+            move_uploaded_file($_FILES["image"]["tmp_name"],"proimg/".$NewImageName);
+        }else{
+            $NewImageName = $imagen;
+        }
+        $sql = "UPDATE `products` SET `name`='$name',`description`='$desc',`price`='$price',
+        `quantity`='$quantity',`category-id`='$category',`img`='$NewImageName' WHERE `id`= $id ";
+        mysqli_query($conn, $sql);
+        header('location:index.php');
+    }
+    function procount($userid){
+        global $conn;
+        $sql = "SELECT * FROM `products` WHERE `user-id`=$userid";
+        $count = mysqli_num_rows(mysqli_query($conn, $sql));
+        if($count == 1){
+            return $count." Product";
+        }else{
+            return $count." Products";
+        }
+    }
 
-    
+    function addpro(){
+        global $conn;
+        $name = $_POST['name'];
+        $desc = $_POST['desc'];
+        $price = $_POST['price'];
+        $quantity = $_POST['quantity'];
+        $category = $_POST['category'];
+        $image = $_FILES['image'];
+        $id = $_SESSION['user']['id'];
+        if(!empty($image['name'])){
+            $NewImageName = "proimg-".$image['name'];
+            move_uploaded_file($_FILES["image"]["tmp_name"],"proimg/".$NewImageName );
+        }else{
+            $NewImageName = "default.png";
+        }
 
-    
-    
-    
+        $sql = "INSERT INTO `products`(`name`, `description`, `price`, `quantity`, `category-id`, `img`, `user-id`) 
+        VALUES ('$name','$desc','$price','$quantity','$category','$NewImageName','$id')";
+        mysqli_query($conn, $sql);
+        header('location:index.php');
+    }
+
+
     function singin(){ 
         global $conn;
         $loginemail = datacheck($_POST['loginemail']);
@@ -25,17 +109,13 @@
         $rest = mysqli_fetch_assoc($res);
         if(mysqli_num_rows($res)!=0){
             $_SESSION['user']= $rest;
-            $_SESSION['message'] = 'Your Logged In Now';
-            $_SESSION['bgcolor'] = '#F8D7DA';
-            $_SESSION['headmsg'] = 'Failure!';
-            $_SESSION['icon'] = 'fa-solid fa-xmar';
-            echo $_SESSION['userid'];
             header('Location: index.php');
         }else{
             $_SESSION['message'] = 'Your Not Logged In Now';
-        $_SESSION['bgcolor'] = '#F8D7DA';
-        $_SESSION['headmsg'] = 'Failure!';
-        $_SESSION['icon'] = 'fa-solid fa-xmar';
+            $_SESSION['bgcolor'] = '#F8D7DA';
+            $_SESSION['headmsg'] = 'Failure!';
+            $_SESSION['icon'] = 'fa-solid fa-xmar';
+            header('Location: signin.php');
         }
         
     }
@@ -100,7 +180,36 @@
         return $data;
       }
      
+    function display($userid){
+            global $conn;
 
+            $sql = 'SELECT products.id as proid ,products.*,`category-name` FROM `products` INNER JOIN categories on `category-id`=categories.id;';
+            $RES = mysqli_query($conn,$sql);
+            
+            while($row = mysqli_fetch_assoc($RES)){
+                if($row['user-id'] == $userid){
+            echo '<div class="col-12 col-md-4 col-lg-3 p-1">
+            <div class="card">
+              <img class="card-img-top" src="proimg/'.$row['img'].'" alt="'.$row['name'].'" style="height: 250px;">
+              <div class="card-body">
+                <h4 class="card-title" id="title'.$row['id'].'" price="'.$row['price'].'" quantity="'.$row['quantity'].'" category="'.$row['category-id'].'" img="'.$row['img'].'" description="'.$row['description'].'">'.$row['name'].'</h4>
+                <p class="card-text mb-1" id="description'.$row['id'].'" title="'.$row['description'].'">'.substr($row['description'],0,30).'</p>
+                </div>
+                <div class="card-footer w-100 m-0 bg-transparent row">
+                    <span style="background-color: #3A5A40;border:white solid 5px;" class="btn rounded-pill text-white">'.$row['category-name'].'</span>
+                    <span style="background-color: #D6FFB7;border:white solid 5px;" class="btn rounded-pill col-6" >Price :'.$row['price'].'</span>
+                    <span style="background-color: #D6FFB7;border:white solid 5px;" class="btn rounded-pill col-6">Quantity :'.$row['quantity'].'</span>
+                </div>
+                <div class="card-footer w-100 bg-transparent d-flex justify-content-evenly">
+                  <a class="btn btn-primary shadow-none me-2" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="editpro('.$row["proid"].')">Edit<i class="fa-solid fa-pen ms-1 fs-6"></i></a>
+                  <a href="#exampleModalCenter" id="task-delete-btn" data-bs-toggle="modal" class="btn btn-danger shadow-none" onclick="deletepro('.$row["proid"].')">Delete<i class="fa-solid fa-trash-can ms-1 fs-6"></i></a>
+                </div>
+              </div></div>
+            ';
+            }
+            }
+
+    }
 
 
 

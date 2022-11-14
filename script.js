@@ -82,7 +82,6 @@ function passReset(){
         <label class="form-label" for="loginName">Email To Reset Password</label>
     </div>
     <button type="submit" id="button" name="passres" class="btn w-100 mb-4 rounded-pill">Reset Password</button>
-
 `
 }
 setTimeout(hidealertmsg, 3000);

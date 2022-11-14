@@ -12,7 +12,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
     <title>Music Store</title>
 </head>
@@ -28,7 +27,7 @@
           </a>
           
           <ul class="dropdown-menu text-small" style="color: #3A5A40;background-color: #D6FFB7;">
-            <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Product</button></li>
+            <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addpro()">Add Product</button></li>
             <li><a class="dropdown-item" href="#">Settings</a></li>
             <li><a class="dropdown-item" href="#">Edit Profile</a></li>
             <li><hr class="dropdown-divider"></li>
@@ -57,7 +56,7 @@
               Products
             </a>
             <ul style="color: #3A5A40;background-color: #D6FFB7;" class="dropdown-menu dropdown-menu">
-              <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Product</button></li>
+              <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addpro()">Add Product</button></li>
               <li><a class="dropdown-item" href="#">Check Stock</a></li>
             </ul>
           </li>
@@ -75,113 +74,115 @@
 <div class="fs-5">DashBoard</div>
 <div style="font-family: Orbitron;" id="MyClockDisplay" class="clock fs-6"></div>
 </div>
-<div class="row align-items-center w-100">
-<div class="card col-12 col-md-6 p-0 mb-2">
-
+<div class="row w-100 ps-3">
+  <div class="p-1 col-12 col-md-6">
+<div class="card ">
+<span class="position-absolute end-0 top-0 fs-5 me-2" style="color:#3A5A40 ;" title="Show the count of products in the stock"><i class="fa-solid fa-circle-info"></i></span>
 <div class="card-body">
   <h5 class="card-title">Sales <span>| Today</span></h5>
 
   <div class="d-flex align-items-center">
-    <div style="background-color: #E1AA7D;height: 80px;width: 80px;" class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-    <i class="fa-solid fa-cart-shopping text-white fs-3"></i>
+    <div style="background-color: #3A5A40;height: 80px;width: 80px;color:#D6FFB7;" class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+    <i class="fa-solid fa-cart-shopping fs-3"></i>
     </div>
     <div class="ps-3">
       <h3>145</h3>
-      <span class="text-success pt-1 fs-6">12%</span><span class="text-muted small pt-2 ps-1">increase</span>
-
     </div>
   </div>
+</div></div>
 </div>
-</div>
-
-<div class="card col-12 col-md-6 p-0 mb-2">
+<div class="p-1 col-12 col-md-6">
+<div class="card">
+<span class="position-absolute end-0 top-0 fs-5 me-2" style="color:#3A5A40 ;" title="Show the count of products in the stock"><i class="fa-solid fa-circle-info"></i></span>
 
 <div class="card-body">
   <h5 class="card-title">Products</h5>
 
   <div class="d-flex align-items-center">
-    <div style="background-color: #E1AA7D;height: 80px;width: 80px;" class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-    <i class="fa-solid fa-boxes-stacked text-white fs-3"></i>
+    <div style="background-color: #3A5A40;height: 80px;width: 80px;color:#D6FFB7;" class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+    <i class="fa-solid fa-boxes-stacked fs-3"></i>
     </div>
     <div class="ps-4">
-      <h3>145</h3>
+      <h3><?= procount($_SESSION['user']['id']) ?> </h3>
     </div>
   </div>
 </div>
 </div>
-<div class="card col-12 col-md-6 p-0">
+</div>
+<div class="p-1 col-12 col-md-6">
 
+<div class="card">
+<span class="position-absolute end-0 top-0 fs-5 me-2" style="color:#3A5A40 ;" title="Show the total of products prices time products quantity"><i class="fa-solid fa-circle-info"></i></span>
 <div class="card-body">
   <h5 class="card-title">RasLmale</h5>
 
   <div class="d-flex align-items-center">
-    <div style="background-color: #E1AA7D;height: 80px;width: 80px;" class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-    <i class="fa-solid fa-coins text-white fs-3"></i>
+    <div style="background-color: #3A5A40;height: 80px;width: 80px;color:#D6FFB7;" class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+    <i class="fa-solid fa-coins fs-3"></i>
     </div>
     <div class="ps-4">
-      <h3>145</h3>
-      <span class="text-success pt-1 fs-6">12%</span><span class="text-muted small pt-2 ps-1">increase</span>
+      <h3><?=  raslmale().' DHS'  ?></h3>
     </div>
   </div>
 </div>
 </div>
-<div class="card col-12 col-md-6 p-0">
+</div>
+<div class="p-1 col-12 col-md-6">
 
+<div class="card">
+<span class="position-absolute end-0 top-0 fs-5 me-2" style="color:#3A5A40 ;" title="Show names of products that their quantity less than 5"><i class="fa-solid fa-circle-info"></i></span>
 <div class="card-body">
   <h5 class="card-title">Check Stock</h5>
 
   <div class="d-flex align-items-center">
-    <div style="background-color: #E1AA7D;height: 80px;width: 80px;" class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-    <i class="fa-solid fa-arrow-trend-down text-white fs-3"></i>
+    <div style="background-color: #3A5A40;height: 80px;width: 80px;color:#D6FFB7;" class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+    <i class="fa-solid fa-arrow-trend-down fs-3"></i>
     </div>
     <div class="ps-4">
-      <h3>145</h3>
+      <div class="btn-group dropend">
+  <button type="button" style="background-color: #3A5A40;color:#D6FFB7;" class="btn shadow-none rounded-pill dropdown-toggle py-2 px-3" data-bs-toggle="dropdown" name="tocheck" aria-expanded="false">
+  Check Stock</button>
+  <dl class="dropdown-menu">
+        <?php checkstock() ?>
+  </dl>
+</div>
     </div>
   </div>
+</div>
 </div>
 </div>
 </div>
 <div style="background-color:#D6FFB7;" class="p-3 fs-5 d-flex justify-content-between align-items-center">
 <div>Products</div>
-<button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill p-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill p-2" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addpro()">
   <span class="p-3 text-white"><i class="fa-solid fa-plus me-2 fs-6"></i>Add Product</span>
 </button>
 </div>
-<div class="row align-items-center w-100">
-
-<div class="card col-6 col-md-4 col-lg-3 p-0 mb-2">
-  <img class="card-img-top" src="img/bg1.jpg" alt="Card image">
-  <div class="card-body">
-    <h4 class="card-title">John Doe</h4>
-    <p class="card-text">Some example text.</p>
-    <a href="#" class="btn btn-primary">See Profile</a>
-  </div>
-  </div>
-
-  <div class="card col-6 col-md-4 col-lg-3 p-0 mb-2">
-  <img class="card-img-top" src="img/bg1.jpg" alt="Card image">
-  <div class="card-body">
-    <h4 class="card-title">John Doe</h4>
-    <p class="card-text">Some example text.</p>
-    <a href="#" class="btn btn-primary">See Profile</a>
-  </div>
-  </div>
-
-  <div class="card col-6 col-md-4 col-lg-3 p-0 mb-2">
-  <img class="card-img-top" src="img/bg1.jpg" alt="Card image">
-  <div class="card-body">
-    <h4 class="card-title">John Doe</h4>
-    <p class="card-text">Some example text.</p>
-    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit<i class="fa-solid fa-pen ms-1 fs-6"></i></a>
-    <a class="btn btn-danger">Delete<i class="fa-solid fa-trash-can ms-1 fs-6"></i></a>
-  </div>
-  </div>
-
+<div class="row w-100 ps-3">
+  <!-- display products -->
+  <?php display($_SESSION['user']['id'])?>
 </div>
 
 
 <!-- modal -->
 <!-- Button trigger modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title text-danger" id="exampleModalLongTitle">Alert</h1>
+      </div>
+      <div class="modal-body">
+        <h4>Do You Really Want To Delete This Product</h4> 
+      </div>
+      <form class="modal-footer" action="script.php" method="POST" id="form-task1">
+	  	<input type="hidden"  class="form-control" id="task-id1" name="task-id1"/>
+		<a href="#" class="btn btn-white" data-bs-dismiss="modal">Cancel</a>
+		<button  type="submit" name="delete" class="btn btn-danger task-action-btn" id="task-delete">Delete</button>
+      </form>
+    </div>
+  </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -191,40 +192,50 @@
         <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="" method="post">
+      <form action="" method="post" id="form" enctype="multipart/form-data">
       <div class="modal-body">
+        <input type="hidden" id="idinput" name="idinput">
+        <input type="hidden" id="imginput" name="imginput">
       <div class="input-group">
         <div class="mb-3">
-            <input type="file" class="form-control"/>
+            <input type="file" class="form-control" id="image" name="image"/>
         </div>
       </div>
       <div class="form-floating mb-3">
-        <input type="text" class="form-control form-control-sm" id="floatingInput" placeholder=" ">
-        <label for="floatingInput" >Name</label>
+        <input type="text" class="form-control form-control-sm" id="name" placeholder=" " name="name" required>
+        <label for="floatingInput">Name</label>
       </div>
       <div class="form-floating mb-3">
-        <textarea class="form-control" placeholder=" " id="floatingTextarea"></textarea>
+        <textarea class="form-control" placeholder=" " id="desc" name="desc"></textarea>
         <label for="floatingTextarea">Description</label>
       </div>
       <div class="d-flex justify-content-between">
       <div class="form-floating mb-3">
-        <input type="number" class="form-control form-control-sm " id="floatingInput" placeholder=" ">
+        <input type="number" step=0.01 class="form-control form-control-sm " id="price" min="0" placeholder=" " name="price" required>
         <label for="floatingInput" >Price</label>
       </div>
       <div class="form-floating mb-3">
-        <input type="number" class="form-control form-control-sm " id="floatingInput" placeholder=" ">
+        <input type="number" class="form-control form-control-sm " id="quantity" min="0" placeholder=" " name="quantity" required>
         <label for="floatingInput" >Quantity</label>
       </div>
     </div>
-    <select class="form-select" aria-label="Default select example">
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+    <select class="form-select" aria-label="Default select example" id="category" name="category" required>
+      <?php  
+            global $conn;
+
+            $sql = 'SELECT * FROM `categories`';
+            $RES = mysqli_query($conn,$sql);
+            
+            while($row = mysqli_fetch_assoc($RES)){
+              echo '<option value="'.$row['id'].'">'.$row['category-name'].'</option>';
+            }
+      ?>
     </select>
       </div>
       <div class="modal-footer">
         <button style="background-color:#8c1c13;border:none;" type="button" class="btn rounded-pill text-white" data-bs-dismiss="modal">Close</button>
-        <button style="background-color:#3A5A40;border:none;" type="button" class="btn rounded-pill text-white">Add Product</button>
+        <button style="background-color:#3A5A40;border:none;" type="submit" class="btn rounded-pill text-white" id="addpro" name="addpro">Add Product</button>
+        <button style="background-color:#3A5A40;border:none;" type="submit" class="btn rounded-pill text-white" id="editpro" name="editpro">Edit Product</button>
       </div>
       </form>
     </div>
@@ -235,6 +246,8 @@
 
 </body>
 <script src="https://kit.fontawesome.com/16f6b89e3c.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 <script>
   function showTime(){
     var date = new Date();
@@ -263,5 +276,25 @@
     
 }
 showTime();
+function editpro($productid){
+    document.getElementById('name').value = document.getElementById('title'+$productid).innerText;
+    document.getElementById('desc').value = document.getElementById('title'+$productid).getAttribute('description');
+    document.getElementById('category').value = document.getElementById('title'+$productid).getAttribute('category');
+    document.getElementById('price').value = document.getElementById('title'+$productid).getAttribute('price');
+    document.getElementById('quantity').value = document.getElementById('title'+$productid).getAttribute('quantity');
+    document.getElementById('imginput').value = document.getElementById('title'+$productid).getAttribute('img');
+    document.getElementById('idinput').value = $productid;
+    document.getElementById('addpro').style.display = 'none';
+    document.getElementById('editpro').style.display = 'block';
+
+}
+function addpro(){
+  document.getElementById('form').reset();
+  document.getElementById('editpro').style.display = 'none';
+  document.getElementById('addpro').style.display = 'block';
+}
+function deletepro($productid){
+      document.getElementById('task-id1').value = $productid;
+}
 </script>
 </html>
