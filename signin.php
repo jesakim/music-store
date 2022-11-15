@@ -57,7 +57,7 @@
                 <label class="form-check-label text-white" for="loginCheck">Remember me</label></div>
                 <button style="color: #D6FFB7;" class="btn me-4 bg-transparent p-0" onclick="passReset()">Forgot password?</button>
               </div>
-        <button type="submit" id="button" name="signin" class="btn w-100 mb-4 rounded-pill">Sign in</button>
+        <button type="submit" id="signin" name="signin" style="background-color: #D6FFB7;" class="btn w-100 mb-4 rounded-pill">Sign in</button>
       </form>
       <div class="text-center">
         <p class="text-white">Or Sign In With :</p>
@@ -72,7 +72,8 @@
     
 </body>
 <script >
-    function displayPassword(){
+
+function displayPassword(){
     document.getElementById("icon1").style.display = "none"
     document.getElementById("icon2").style.display = "block"
     document.getElementById("loginPassword").removeAttribute("type")
@@ -109,7 +110,7 @@ function signinF(){
                 <label class="form-check-label text-white" for="loginCheck">Remember me</label></div>
                 <button style="color: #D6FFB7;" class="btn me-4 bg-transparent p-0" onclick="passReset()">Forgot password?</button>
               </div>
-        <button type="submit" id="button" name="signin" class="btn w-100 mb-4 rounded-pill">Sign in</button>
+        <button style="background-color: #D6FFB7;" type="submit" name="signin" class="btn w-100 mb-4 rounded-pill" id="signin">Sign in</button>
     `
 }
 function registerF(){
@@ -139,7 +140,7 @@ function registerF(){
             <input id="flexSwitchCheckDefault" class="form-check-input" type="checkbox" value="" id="loginCheck"/>
             <label class="form-check-label text-white" for="loginCheck">I Have Read And Agree To The Terms</label>
           </div>
-    <button type="submit" id="button" name="register" class="btn w-100 mb-4 rounded-pill">Register</button>`
+    <button style="background-color: #D6FFB7;" type="submit" id="signin" name="register" class="btn w-100 mb-4 rounded-pill">Register</button>`
 }
 function counter(){
     $value = document.getElementById("loginPassword").value;
@@ -155,7 +156,7 @@ function passReset(){
         <input type="email" id="loginEmail" class="rounded-pill w-100" placeholder=" " required oninvalid="setCustomValidity('Please Entre A Valid Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
         <label class="form-label" for="loginName">Email To Reset Password</label>
     </div>
-    <button type="submit" id="button" name="passres" class="btn w-100 mb-4 rounded-pill">Reset Password</button>
+    <button style="background-color: #D6FFB7;" type="submit" id="signin" name="passres" class="btn w-100 mb-4 rounded-pill">Reset Password</button>
 
 `
 }
@@ -184,6 +185,12 @@ function rpass(inp){
         inp.style.border = 'red solid 2px';
         inp.nextElementSibling.style.color = 'red';
         inp.setCustomValidity('The Passwords Are Not Identical');
+    }
+}
+document.getElementById('formbody').onkeypress = function(event){
+    if(event.key === "Enter"){
+        event.preventDefault();
+        document.getElementById('signin').click();
     }
 }
 </script>
