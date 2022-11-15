@@ -95,7 +95,7 @@
 
         $sql = "INSERT INTO `products`(`name`, `description`, `price`, `quantity`, `category-id`, `img`, `user-id`) 
         VALUES ('$name','$desc','$price','$quantity','$category','$NewImageName','$id')";
-        mysqli_query($conn, $sql);
+        $res = mysqli_query($conn, $sql);
         header('location:index.php');
     }
 
@@ -111,9 +111,9 @@
             $_SESSION['user']= $rest;
             header('Location: index.php');
         }else{
-            $_SESSION['message'] = 'Your Not Logged In Now';
+            $_SESSION['message'] = 'The information you entered does not match our records';
             $_SESSION['bgcolor'] = '#F8D7DA';
-            $_SESSION['headmsg'] = 'Failure!';
+            $_SESSION['headmsg'] = 'Sorry!';
             $_SESSION['icon'] = 'fa-solid fa-xmar';
             header('Location: signin.php');
         }
@@ -171,7 +171,7 @@
         }
 
 
-        header('Location: index.php');
+        header('Location: signin.php');
     }
     function datacheck($data){
         $data = trim($data);
@@ -188,21 +188,24 @@
             
             while($row = mysqli_fetch_assoc($RES)){
                 if($row['user-id'] == $userid){
-            echo '<div class="col-12 col-md-4 col-lg-3 p-1">
+            echo '<div class="col-12 col-sm-6 col-md-4 col-lg-3 p-1">
             <div class="card">
               <img class="card-img-top" src="proimg/'.$row['img'].'" alt="'.$row['name'].'" style="height: 250px;">
               <div class="card-body">
                 <h4 class="card-title" id="title'.$row['id'].'" price="'.$row['price'].'" quantity="'.$row['quantity'].'" category="'.$row['category-id'].'" img="'.$row['img'].'" description="'.$row['description'].'">'.$row['name'].'</h4>
-                <p class="card-text mb-1" id="description'.$row['id'].'" title="'.$row['description'].'">'.substr($row['description'],0,30).'</p>
+                <a class="btn text-muted shadow-none p-0" data-bs-toggle="collapse" id="showdesc" data-bs-target="#collapse'.$row['id'].'" role="button" aria-expanded="false" aria-controls="collapse" onclick="showdesc(this)">
+                    Show Details
+                </a>
                 </div>
-                <div class="card-footer w-100 m-0 bg-transparent row">
+                <div class="card-footer w-100 m-0 bg-transparent row collapse" id="collapse'.$row['id'].'">
+                    <p class="card-text mb-1 collapse" id="collapse'.$row['id'].'" title="'.$row['description'].'">'.$row['description'].'</p>
                     <span style="background-color: #3A5A40;border:white solid 5px;" class="btn rounded-pill text-white">'.$row['category-name'].'</span>
                     <span style="background-color: #D6FFB7;border:white solid 5px;" class="btn rounded-pill col-6" >Price :'.$row['price'].'</span>
-                    <span style="background-color: #D6FFB7;border:white solid 5px;" class="btn rounded-pill col-6">Quantity :'.$row['quantity'].'</span>
+                    <span style="background-color: #D6FFB7;border:white solid 5px;" class="btn rounded-pill col-6" >Quantity :'.$row['quantity'].'</span>
                 </div>
-                <div class="card-footer w-100 bg-transparent d-flex justify-content-evenly">
-                  <a class="btn btn-primary shadow-none me-2" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="editpro('.$row["proid"].')">Edit<i class="fa-solid fa-pen ms-1 fs-6"></i></a>
-                  <a href="#exampleModalCenter" id="task-delete-btn" data-bs-toggle="modal" class="btn btn-danger shadow-none" onclick="deletepro('.$row["proid"].')">Delete<i class="fa-solid fa-trash-can ms-1 fs-6"></i></a>
+                <div class="card-footer w-100 bg-transparent row gap-2 justify-content-center m-0">
+                  <a class="btn text-white shadow-none me-2 rounded-pill col-5" style="background-color: #3A5A40;" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="editpro('.$row["proid"].')">Edit<i class="fa-solid fa-pen ms-1 fs-6"></i></a>
+                  <a href="#exampleModalCenter" id="task-delete-btn" data-bs-toggle="modal" class="btn btn-danger shadow-none rounded-pill col-5" onclick="deletepro('.$row["proid"].')">Delete<i class="fa-solid fa-trash-can ms-1 fs-6"></i></a>
                 </div>
               </div></div>
             ';
@@ -210,7 +213,4 @@
             }
 
     }
-
-
-
 ?>

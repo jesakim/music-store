@@ -13,17 +13,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
-    <title>Music Store</title>
+    <link rel="icon" type="" href="img/icon.png">
+    <title>RockStars</title>
 </head>
 <body>
 <div style="background-color: #3A5A40;" class="navbar">
   <div class="container-fluid">
-    <a style="color: #D6FFB7;" class="navbar-brand" href="#">Music Store</a>
+    <a style="color: #D6FFB7;" class="navbar-brand" href="index.php">RockStars</a>
     <div class="d-flex">
     <div class="dropdown text-end mt-1 me-3 align-items-center">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="img/icon.png" alt="mdo" width="32" height="32" class="rounded-circle">
-            <span><?php echo $_SESSION['user']['username']?></span>
+            <span><?php echo $_SESSION['user']['username'] ?></span>
           </a>
           
           <ul class="dropdown-menu text-small" style="color: #3A5A40;background-color: #D6FFB7;">
@@ -40,37 +41,51 @@
   </div>
     <div class="offcanvas offcanvas-start text-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
       <div class="offcanvas-header">
-        <h5 style="color: #3A5A40;" class="offcanvas-title" id="offcanvasDarkNavbarLabel">Music Store</h5>
+        <h5 style="color: #3A5A40;" class="offcanvas-title" id="offcanvasDarkNavbarLabel">RockStars</h5>
         <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <div class="offcanvas-body">
+      <div class="offcanvas-body ">
+      <div class="dropdown text-start mt-1 me-3 align-items-center">
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="img/icon.png" alt="mdo" width="32" height="32" class="rounded-circle">
+            <span><?php echo $_SESSION['user']['username'] ?></span>
+          </a>
+          
+          <ul class="dropdown-menu text-small" style="color: #3A5A40;background-color: #D6FFB7;">
+            <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addpro()">Add Product</button></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><form action="script.php" method="post"><input class="dropdown-item bg-danger" type="submit" name="signout" value="Sign out"/></form></li>
+          </ul>
+        </div>
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
-            <a style="color: #3A5A40;" class="nav-link active" aria-current="page" href="#">Home</a>
+            <a style="color: #3A5A40;" class="nav-link active" aria-current="page" href="#" data-bs-dismiss="offcanvas" aria-label="Close">Home</a>
           </li>
           <li class="nav-item">
-            <a style="color: #3A5A40;" class="nav-link" href="#">Dachboard</a>
+            <a style="color: #3A5A40;" class="nav-link" href="#DashBoard" data-bs-dismiss="offcanvas" aria-label="Close">Dachboard</a>
           </li>
           <li class="nav-item dropdown">
-            <a style="color: #3A5A40;" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a style="color: #3A5A40;" class="nav-link dropdown-toggle" href="#products" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
               Products
             </a>
             <ul style="color: #3A5A40;background-color: #D6FFB7;" class="dropdown-menu dropdown-menu">
-              <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addpro()">Add Product</button></li>
-              <li><a class="dropdown-item" href="#">Check Stock</a></li>
+              <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addpro()" data-bs-dismiss="offcanvas" aria-label="Close">Add Product</button></li>
+              <li><a class="dropdown-item" href="#products" data-bs-dismiss="offcanvas" aria-label="Close">Check Stock</a></li>
             </ul>
           </li>
         </ul>
         <form class="d-flex mt-3" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button style="color: #D6FFB7;background-color: #3A5A40;box-shadow:none" class="btn" type="submit">Search</button>
+          <button style="color: #D6FFB7;background-color: #3A5A40;box-shadow:none" class="btn" type="submit" data-bs-dismiss="offcanvas" aria-label="Close">Search</button>
         </form>
       </div>
     </div>
     
   </div>
 </div>
-<div style="background-color:#D6FFB7;color: #3A5A40;" class="text-dark p-3 d-flex justify-content-between align-items-center">
+<div style="background-color:#D6FFB7;color: #3A5A40;" id="DashBoard" class="text-dark p-3 d-flex justify-content-between align-items-center">
 <div class="fs-5">DashBoard</div>
 <div style="font-family: Orbitron;" id="MyClockDisplay" class="clock fs-6"></div>
 </div>
@@ -152,15 +167,27 @@
 </div>
 </div>
 </div>
-<div style="background-color:#D6FFB7;" class="p-3 fs-5 d-flex justify-content-between align-items-center">
+<div style="background-color:#D6FFB7;" id="products" class="p-3 fs-5 d-flex justify-content-between align-items-center">
 <div>Products</div>
 <button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill p-2" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addpro()">
   <span class="p-3 text-white"><i class="fa-solid fa-plus me-2 fs-6"></i>Add Product</span>
 </button>
 </div>
 <div class="row w-100 ps-3">
-  <!-- display products -->
-  <?php display($_SESSION['user']['id'])?>
+<?php if (isset($_SESSION['message'])){
+				echo '<div style="background-color: '.$_SESSION["bgcolor"].'" class="alert alert-dismissible fade show rounded-pill py-2" id="alert" >
+                <i class="'.$_SESSION['icon'].'"></i>
+				<strong>'.$_SESSION['headmsg'].'</strong> 
+						'. $_SESSION["message"].'
+						
+					</div>';
+				unset($_SESSION['message']);
+				unset($_SESSION['icon']);
+				unset($_SESSION['headmsg']);
+				unset($_SESSION['bgcolor']);};
+          ?>
+<?php 
+   display($_SESSION['user']['id'])?>
 </div>
 
 
@@ -192,7 +219,7 @@
         <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="" method="post" id="form" enctype="multipart/form-data">
+      <form action="script.php" method="post" id="form" enctype="multipart/form-data">
       <div class="modal-body">
         <input type="hidden" id="idinput" name="idinput">
         <input type="hidden" id="imginput" name="imginput">
@@ -209,14 +236,14 @@
         <textarea class="form-control" placeholder=" " id="desc" name="desc"></textarea>
         <label for="floatingTextarea">Description</label>
       </div>
-      <div class="d-flex justify-content-between">
-      <div class="form-floating mb-3">
+      <div class="row justify-content-center">
+      <div class="form-floating mb-3 col-6">
         <input type="number" step=0.01 class="form-control form-control-sm " id="price" min="0" placeholder=" " name="price" required>
         <label for="floatingInput" >Price</label>
       </div>
-      <div class="form-floating mb-3">
-        <input type="number" class="form-control form-control-sm " id="quantity" min="0" placeholder=" " name="quantity" required>
-        <label for="floatingInput" >Quantity</label>
+      <div class="form-floating mb-3 col-6">
+        <input type="number" class="form-control form-control-sm" id="quantity" min="0" placeholder=" " name="quantity" required>
+        <label for="floatingInput " >Quantity</label>
       </div>
     </div>
     <select class="form-select" aria-label="Default select example" id="category" name="category" required>
@@ -295,6 +322,17 @@ function addpro(){
 }
 function deletepro($productid){
       document.getElementById('task-id1').value = $productid;
+}
+function showdesc($ss){
+  $ss.innerText = 'Hide Details'
+  $ss.removeAttribute('onclick');
+  $ss.setAttribute('onclick',"hidedesc(this)");
+
+}
+function hidedesc($ss){
+  $ss.innerText = 'Show Details'
+  $ss.removeAttribute('onclick');
+  $ss.setAttribute('onclick',"showdesc(this)");
 }
 </script>
 </html>

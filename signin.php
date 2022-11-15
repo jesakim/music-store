@@ -24,7 +24,7 @@
             <li id="buttonR" class="btn my-3 w-50 ms-2 rounded-pill" onclick="registerF()">Register Now</li>
         </ul>
         <?php if (isset($_SESSION['message'])){
-				echo '<div style="background-color: '.$_SESSION["bgcolor"].';color:#3A5A40" class="alert alert-dismissible fade show rounded-pill py-2" id="alert" >
+				echo '<div style="background-color: '.$_SESSION["bgcolor"].'" class="alert alert-dismissible fade show rounded-pill py-2" id="alert" >
                 <i class="'.$_SESSION['icon'].'"></i>
 				<strong>'.$_SESSION['headmsg'].'</strong> 
 						'. $_SESSION["message"].'
