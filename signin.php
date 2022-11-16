@@ -187,11 +187,5 @@ function rpass(inp){
         inp.setCustomValidity('The Passwords Are Not Identical');
     }
 }
-document.getElementById('formbody').onkeypress = function(event){
-    if(event.key === "Enter"){
-        event.preventDefault();
-        document.getElementById('signin').click();
-    }
-}
 </script>
 </html>

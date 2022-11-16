@@ -112,14 +112,19 @@
 <div class="card ">
 <span class="position-absolute end-0 top-0 fs-5 me-2" style="color:#3A5A40 ;" title="Show the count of products in the stock"><i class="fa-solid fa-circle-info"></i></span>
 <div class="card-body">
-  <h5 class="card-title">Sales <span>| Today</span></h5>
+  <h5 class="card-title">Sales</h5>
 
   <div class="d-flex align-items-center">
     <div style="background-color: #3A5A40;height: 80px;width: 80px;color:#D6FFB7;" class="card-icon rounded-circle d-flex align-items-center justify-content-center">
     <i class="fa-solid fa-cart-shopping fs-3"></i>
     </div>
     <div class="ps-3">
-      <h3>145</h3>
+      <button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill p-2" data-bs-toggle="modal" data-bs-target="#sellModal" onclick="addpro()">
+        <span class="p-3 text-white"><i class="fa-solid fa-coins me-2 fs-6"></i>Sell Product</span>
+    </button>
+    <button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill p-2" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addpro()">
+        <span class="p-3 text-white"><i class="fa-solid fa-cart-shopping me-2 fs-6"></i>Seles History</span>
+    </button>
     </div>
   </div>
 </div></div>
@@ -206,7 +211,7 @@
       };
           ?>
 <?php 
-   display($_SESSION['user']['id'])?>
+   display()?>
 </div>
 
 
@@ -215,10 +220,8 @@
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title text-danger" id="exampleModalLongTitle">Alert</h1>
-      </div>
-      <div class="modal-body">
+      <div class="modal-body d-flex align-items-center flex-column">
+      <i class="fa-solid fa-circle-exclamation text-danger fs-1 mb-3"></i>
         <h4>Do You Really Want To Delete This Product</h4> 
       </div>
       <form class="modal-footer" action="script.php" method="POST" id="form-task1">
@@ -258,11 +261,11 @@
       <div class="row justify-content-center">
       <div class="form-floating mb-3 col-6">
         <input type="number" step=0.01 class="form-control form-control-sm " id="price" min="0" placeholder=" " name="price" required>
-        <label for="floatingInput" >Price</label>
+        <label for="floatingInput">Price</label>
       </div>
       <div class="form-floating mb-3 col-6">
         <input type="number" class="form-control form-control-sm" id="quantity" min="0" placeholder=" " name="quantity" required>
-        <label for="floatingInput " >Quantity</label>
+        <label for="floatingInput" >Quantity</label>
       </div>
     </div>
     <select class="form-select" aria-label="Default select example" id="category" name="category" required>
@@ -278,14 +281,50 @@
       ?>
     </select>
       </div>
-      <div class="modal-footer">
-        <button style="background-color:#8c1c13;border:none;" type="button" class="btn rounded-pill text-white" data-bs-dismiss="modal">Close</button>
-        <button style="background-color:#3A5A40;border:none;" type="submit" class="btn rounded-pill text-white" id="addpro" name="addpro">Add Product</button>
-        <button style="background-color:#3A5A40;border:none;" type="submit" class="btn rounded-pill text-white" id="editpro" name="editpro">Edit Product</button>
+      <div class="modal-footer" id="modalfooter">
+
       </div>
       </form>
     </div>
   </div>
+</div>
+<div class="modal fade" id="sellModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Sell Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="script.php" method="post" id="form">
+      <div class="modal-body">
+    
+    <select class="form-select" aria-label="Default select example" id="category" name="idtobesold" required>
+              <option value="">Select a Product To Be Sold</option>
+              <?php  
+                      global $conn;
+
+                      $userid = $_SESSION['user']['id'];
+                      $sql = "SELECT * FROM `products` WHERE `user-id` = $userid";
+                      $RES = mysqli_query($conn,$sql);
+                      
+                      while($row = mysqli_fetch_assoc($RES)){
+                        echo '<option value="'.$row['id'].'">'.$row['name'].' ('.$row['price'].' DHS , '.$row['quantity'].' Units)</option>';
+                      }
+                ?>
+    </select>
+    <div class="form-floating mt-3">
+        <input type="number" class="form-control form-control-sm" id="quantity" min="0" placeholder=" " name="quantitytobesold" required>
+        <label for="floatingInput">Quantity</label>
+      </div>
+      </div>
+      <div class="modal-footer" id="modalfooter">
+      <button style="background-color:#8c1c13;border:none;" type="button" class="btn rounded-pill text-white" data-bs-dismiss="modal">Close</button>
+        <button style="background-color:#3A5A40;border:none;" type="submit" class="btn rounded-pill text-white" id="markassold" name="markassold">Mark As Sold</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 </div>
 
 
@@ -330,14 +369,18 @@ function editpro($productid){
     document.getElementById('quantity').value = document.getElementById('title'+$productid).getAttribute('quantity');
     document.getElementById('imginput').value = document.getElementById('title'+$productid).getAttribute('img');
     document.getElementById('idinput').value = $productid;
-    document.getElementById('addpro').style.display = 'none';
-    document.getElementById('editpro').style.display = 'block';
+    document.getElementById('modalfooter').innerHTML = `
+        <button style="background-color:#8c1c13;border:none;" type="button" class="btn rounded-pill text-white" data-bs-dismiss="modal">Close</button>
+        <button style="background-color:#3A5A40;border:none;" type="submit" class="btn rounded-pill text-white" id="editpro" name="editpro">Edit Product</button>
+    `
 
 }
 function addpro(){
   document.getElementById('form').reset();
-  document.getElementById('editpro').style.display = 'none';
-  document.getElementById('addpro').style.display = 'block';
+  document.getElementById('modalfooter').innerHTML = `
+        <button style="background-color:#8c1c13;border:none;" type="button" class="btn rounded-pill text-white" data-bs-dismiss="modal">Close</button>
+        <button style="background-color:#3A5A40;border:none;" type="submit" class="btn rounded-pill text-white" id="addpro" name="addpro">Add Product</button>
+    `
 }
 function deletepro($productid){
       document.getElementById('task-id1').value = $productid;

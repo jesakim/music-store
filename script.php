@@ -10,6 +10,38 @@
     if(isset($_POST['editpro']))  editpro();
     if(isset($_POST['delete']))  deletepro();
     if(isset($_POST['tocheck']))  checkstock();
+    if(isset($_POST['markassold']))  sellpro();
+
+
+function sellpro(){
+    $quantitytobesold = $_POST['quantitytobesold'];
+    $idtobesold = $_POST['idtobesold'];
+    global $conn;
+    $check = "SELECT * FROM `products` WHERE `id`= $idtobesold ";
+    $res = mysqli_query($conn, $check);
+    $row = mysqli_fetch_assoc($res);
+    if($row['quantity'] >= $quantitytobesold){
+        $newquantity = $row['quantity'] - $quantitytobesold ;
+        $total = $row['price'] * $quantitytobesold;
+        $update = "UPDATE `products` SET `quantity`= $newquantity WHERE `id`= $idtobesold ";
+        mysqli_query($conn, $update);
+        $sql = "INSERT INTO `sales`(`product_id`,`quatity_sold`,`total`) VALUES ( $idtobesold , $quantitytobesold , $total)";
+        mysqli_query($conn, $sql);
+        $_SESSION['message'] = 'Product Sold Successfully';
+        $_SESSION['bgcolor'] = '#D6FFB7';
+        $_SESSION['headmsg'] = 'Success!';
+        $_SESSION['icon'] = 'fa-solid fa-check';
+    }else{
+        $_SESSION['message'] = 'You Have Only '.$row['quantity'].' Units In The Stock';
+        $_SESSION['bgcolor'] = '#F8D7DA';
+        $_SESSION['headmsg'] = 'Sorry!';
+        $_SESSION['icon'] = 'fa-solid fa-xmar';;
+    }
+    header('location:index.php');
+
+}
+
+
     function checkstock(){
           global $conn;
           $userid = $_SESSION['user']['id'];
@@ -104,7 +136,7 @@
 
         $sql = "INSERT INTO `products`(`name`, `description`, `price`, `quantity`, `category-id`, `img`, `user-id`) 
         VALUES ('$name','$desc','$price','$quantity','$category','$NewImageName','$id')";
-        $res = mysqli_query($conn, $sql);
+        mysqli_query($conn, $sql);
         $_SESSION['message'] = 'Product Added Successfully';
             $_SESSION['bgcolor'] = '#D6FFB7';
             $_SESSION['headmsg'] = 'Success!';
@@ -193,14 +225,13 @@
         return $data;
       }
      
-    function display($userid){
+    function display(){
             global $conn;
-
-            $sql = 'SELECT products.id as proid ,products.*,`category-name` FROM `products` INNER JOIN categories on `category-id`=categories.id;';
+            $userid = $_SESSION['user']['id'];
+            $sql = "SELECT products.id as proid ,products.*,`category-name` FROM `products` INNER JOIN categories on `category-id`=categories.id WHERE `user-id` = $userid  ";
             $RES = mysqli_query($conn,$sql);
             
             while($row = mysqli_fetch_assoc($RES)){
-                if($row['user-id'] == $userid){
             echo '<div class="col-12 col-sm-6 col-md-4 col-lg-3 p-1">
             <div class="card">
               <img class="card-img-top" src="proimg/'.$row['img'].'" alt="'.$row['name'].'" style="height: 250px;">
@@ -223,7 +254,5 @@
               </div></div>
             ';
             }
-            }
-
     }
 ?>
