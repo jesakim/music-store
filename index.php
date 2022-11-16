@@ -15,6 +15,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
     <link rel="icon" type="" href="img/icon.png">
     <title>RockStars</title>
+    <style>
+/* width */
+::-webkit-scrollbar {
+  width:10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #3A5A40; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #3A5A40; 
+  border-radius: 10px;
+}
+</style>
 </head>
 <body>
 <div style="background-color: #3A5A40;" class="navbar">
@@ -157,7 +175,7 @@
       <div class="btn-group dropend">
   <button type="button" style="background-color: #3A5A40;color:#D6FFB7;" class="btn shadow-none rounded-pill dropdown-toggle py-2 px-3" data-bs-toggle="dropdown" name="tocheck" aria-expanded="false">
   Check Stock</button>
-  <dl class="dropdown-menu">
+  <dl class="dropdown-menu" style="overflow: auto;height: 130px;">
         <?php checkstock() ?>
   </dl>
 </div>
@@ -175,7 +193,7 @@
 </div>
 <div class="row w-100 ps-3">
 <?php if (isset($_SESSION['message'])){
-				echo '<div style="background-color: '.$_SESSION["bgcolor"].'" class="alert alert-dismissible fade show rounded-pill py-2" id="alert" >
+				echo '<div style="background-color: '.$_SESSION["bgcolor"].';color: #3A5A40;" class="alert alert-dismissible fade show rounded-pill py-2 m-1 mb-0" id="alert" >
                 <i class="'.$_SESSION['icon'].'"></i>
 				<strong>'.$_SESSION['headmsg'].'</strong> 
 						'. $_SESSION["message"].'
@@ -184,7 +202,8 @@
 				unset($_SESSION['message']);
 				unset($_SESSION['icon']);
 				unset($_SESSION['headmsg']);
-				unset($_SESSION['bgcolor']);};
+				unset($_SESSION['bgcolor']);
+      };
           ?>
 <?php 
    display($_SESSION['user']['id'])?>
@@ -334,5 +353,17 @@ function hidedesc($ss){
   $ss.removeAttribute('onclick');
   $ss.setAttribute('onclick',"showdesc(this)");
 }
+
+function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    setTimeout(hidealertmsg, 5000);
+    async function hidealertmsg(){
+        for(let i=0; i < 10; i++){
+        document.getElementById("alert").style.opacity = 1-(i*0.1);
+        await sleep(100);    
+    }
+        document.getElementById("alert").style.display = 'none';
+    }
 </script>
 </html>

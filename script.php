@@ -43,6 +43,11 @@
         $id = $_POST['task-id1'];
         $sql = "DELETE FROM `products` WHERE `id` = $id";
         mysqli_query($conn, $sql);
+        
+        $_SESSION['message'] = 'Product Deleted Successfully';
+            $_SESSION['bgcolor'] = '#D6FFB7';
+            $_SESSION['headmsg'] = 'Success!';
+            $_SESSION['icon'] = 'fa-solid fa-check';
         header('location:index.php');
     }
     function editpro(){
@@ -64,6 +69,10 @@
         $sql = "UPDATE `products` SET `name`='$name',`description`='$desc',`price`='$price',
         `quantity`='$quantity',`category-id`='$category',`img`='$NewImageName' WHERE `id`= $id ";
         mysqli_query($conn, $sql);
+        $_SESSION['message'] = 'Product Updated Successfully';
+            $_SESSION['bgcolor'] = '#D6FFB7';
+            $_SESSION['headmsg'] = 'Success!';
+            $_SESSION['icon'] = 'fa-solid fa-check';
         header('location:index.php');
     }
     function procount($userid){
@@ -96,6 +105,10 @@
         $sql = "INSERT INTO `products`(`name`, `description`, `price`, `quantity`, `category-id`, `img`, `user-id`) 
         VALUES ('$name','$desc','$price','$quantity','$category','$NewImageName','$id')";
         $res = mysqli_query($conn, $sql);
+        $_SESSION['message'] = 'Product Added Successfully';
+            $_SESSION['bgcolor'] = '#D6FFB7';
+            $_SESSION['headmsg'] = 'Success!';
+            $_SESSION['icon'] = 'fa-solid fa-check';
         header('location:index.php');
     }
 
