@@ -21,7 +21,8 @@
         VALUES ('$name','$desc','$price','$quantity','$NewImageName')";
         mysqli_query($conn, $sql);
     }
-    echo '12'*'2';
+    // echo date('y-m-d',strtotime("-7 days"));
+    // echo date('y-m-d'),strtotime("-1 days"));
 ?>
 
 

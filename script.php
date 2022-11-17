@@ -11,6 +11,88 @@
     if(isset($_POST['delete']))  deletepro();
     if(isset($_POST['tocheck']))  checkstock();
     if(isset($_POST['markassold']))  sellpro();
+    
+
+if(isset($_POST['nameup'])){
+        $_SESSION['orderby'] = 'name';
+        $_SESSION['flux'] = 'ASC';
+        $_SESSION['message'] = 'Products Are Filtred By '.$_SESSION['orderby'].' Up';
+        $_SESSION['bgcolor'] = '#D6FFB7';
+        $_SESSION['headmsg'] = 'Success!';
+        $_SESSION['icon'] = 'fa-solid fa-check';
+        unset($_SESSION['categoryfilter']);
+
+        header('location:index.php');
+}
+if(isset($_POST['namedown'])){
+    $_SESSION['orderby'] = 'name';
+    $_SESSION['flux'] = 'DESC';
+    $_SESSION['message'] = 'Products Are Filtred By '.$_SESSION['orderby'].' Down';
+    $_SESSION['bgcolor'] = '#D6FFB7';
+    $_SESSION['headmsg'] = 'Success!';
+    $_SESSION['icon'] = 'fa-solid fa-check';
+    unset($_SESSION['categoryfilter']);
+
+    header('location:index.php');
+}
+if(isset($_POST['quantityup'])){
+    $_SESSION['orderby'] = 'quantity';
+    $_SESSION['flux'] = 'ASC';
+    $_SESSION['message'] = 'Products Are Filtred By '.$_SESSION['orderby'].' Up';
+    $_SESSION['bgcolor'] = '#D6FFB7';
+    $_SESSION['headmsg'] = 'Success!';
+    $_SESSION['icon'] = 'fa-solid fa-check';
+    unset($_SESSION['categoryfilter']);
+
+    header('location:index.php');
+}
+if(isset($_POST['quantitydown'])){
+    $_SESSION['orderby'] = 'quantity';
+    $_SESSION['flux'] = 'DESC';
+    $_SESSION['message'] = 'Products Are Filtred By '.$_SESSION['orderby'].' Down';
+    $_SESSION['bgcolor'] = '#D6FFB7';
+    $_SESSION['headmsg'] = 'Success!';
+    $_SESSION['icon'] = 'fa-solid fa-check';
+    unset($_SESSION['categoryfilter']);
+
+    header('location:index.php');
+}
+if(isset($_POST['resetfilter'])){
+    $_SESSION['orderby'] = 'id';
+    $_SESSION['flux'] = 'ASC';
+    $_SESSION['message'] = 'Filter Is Reseted Successfully';
+    $_SESSION['bgcolor'] = '#D6FFB7';
+    $_SESSION['headmsg'] = 'Success!';
+    $_SESSION['icon'] = 'fa-solid fa-check';
+    unset($_SESSION['categoryfilter']);
+    header('location:index.php');
+}
+if(isset($_POST['categoryfilterbtn'])){
+    if($_POST['categoryfilter'] != 0){
+    $_SESSION['categoryfilter'] = $_POST['categoryfilter'];
+
+    $_SESSION['message'] = 'Filter Is By '.$_SESSION['categoryfilter'].' Category';
+    $_SESSION['bgcolor'] = '#D6FFB7';
+    $_SESSION['headmsg'] = 'Success!';
+    $_SESSION['icon'] = 'fa-solid fa-check';}
+    header('location:index.php');
+}
+
+function saleshistory($time1,$time2){
+    global $conn;
+    $sql = "SELECT * FROM `sales` INNER JOIN products ON products.id = sales.product_id WHERE sales.date BETWEEN '$time1' and '$time2' ;";
+    $res = mysqli_query($conn,$sql);
+
+    while($row = mysqli_fetch_assoc($res)){
+        echo '<tr>
+        <th scope="row">'.$row['name'].'</th>
+        <td>'.$row['quatity_sold'].'</td>
+        <td>'.$row['total'].'</td>
+        <td>'.$row['date'].'</td>
+      </tr>';
+    }
+
+}
 
 
 function sellpro(){
@@ -27,7 +109,7 @@ function sellpro(){
         mysqli_query($conn, $update);
         $sql = "INSERT INTO `sales`(`product_id`,`quatity_sold`,`total`) VALUES ( $idtobesold , $quantitytobesold , $total)";
         mysqli_query($conn, $sql);
-        $_SESSION['message'] = 'Product Sold Successfully';
+        $_SESSION['message'] = $quantitytobesold.' Units Of '.$row['name'].' Sold Successfully';
         $_SESSION['bgcolor'] = '#D6FFB7';
         $_SESSION['headmsg'] = 'Success!';
         $_SESSION['icon'] = 'fa-solid fa-check';
@@ -40,7 +122,6 @@ function sellpro(){
     header('location:index.php');
 
 }
-
 
     function checkstock(){
           global $conn;
@@ -154,6 +235,8 @@ function sellpro(){
         $rest = mysqli_fetch_assoc($res);
         if(mysqli_num_rows($res)!=0){
             $_SESSION['user']= $rest;
+            $_SESSION['orderby'] = 'id';
+            $_SESSION['flux'] = 'ASC';
             header('Location: index.php');
         }else{
             $_SESSION['message'] = 'The information you entered does not match our records';
@@ -227,14 +310,20 @@ function sellpro(){
      
     function display(){
             global $conn;
+            $orderby = $_SESSION['orderby'];
+            $flux = $_SESSION['flux'];
             $userid = $_SESSION['user']['id'];
-            $sql = "SELECT products.id as proid ,products.*,`category-name` FROM `products` INNER JOIN categories on `category-id`=categories.id WHERE `user-id` = $userid  ";
-            $RES = mysqli_query($conn,$sql);
+            $sql = "SELECT products.id as proid ,products.*,`category-name` FROM `products` INNER JOIN categories on `category-id`=categories.id WHERE `user-id` = $userid ORDER BY $orderby $flux ";
             
+            if(isset($_SESSION['categoryfilter'])){
+                $categoryfilter = $_SESSION['categoryfilter'];
+                $sql = "SELECT products.id as proid ,products.*,`category-name` FROM `products` INNER JOIN categories on `category-id`=categories.id WHERE `category-name`=  '$categoryfilter' ";
+            }
+            $RES = mysqli_query($conn,$sql);
             while($row = mysqli_fetch_assoc($RES)){
             echo '<div class="col-12 col-sm-6 col-md-4 col-lg-3 p-1">
             <div class="card">
-              <img class="card-img-top" src="proimg/'.$row['img'].'" alt="'.$row['name'].'" style="height: 250px;">
+            <div style="height: 250px;background-image:url(proimg/'.$row['img'].');background-position: center;background-repeat: no-repeat;background-size: cover;"></div>
               <div class="card-body">
                 <h4 class="card-title" id="title'.$row['id'].'" price="'.$row['price'].'" quantity="'.$row['quantity'].'" category="'.$row['category-id'].'" img="'.$row['img'].'" description="'.$row['description'].'">'.$row['name'].'</h4>
                 <a class="btn text-muted shadow-none p-0" data-bs-toggle="collapse" id="showdesc" data-bs-target="#collapse'.$row['id'].'" role="button" aria-expanded="false" aria-controls="collapse" onclick="showdesc(this)">

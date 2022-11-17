@@ -32,6 +32,16 @@
   background: #3A5A40; 
   border-radius: 10px;
 }
+.accordion-button:not(.collapsed)::after {
+    /* background-image: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230c63e4'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e); */
+    transform: rotate(-180deg);
+}
+button[isactive] {
+  background-color: #3A5A40;
+}
+button[isactive]:hover {
+  background-color: #146C43;
+}
 </style>
 </head>
 <body>
@@ -118,14 +128,12 @@
     <div style="background-color: #3A5A40;height: 80px;width: 80px;color:#D6FFB7;" class="card-icon rounded-circle d-flex align-items-center justify-content-center">
     <i class="fa-solid fa-cart-shopping fs-3"></i>
     </div>
-    <div class="ps-3">
-      <button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill p-2" data-bs-toggle="modal" data-bs-target="#sellModal" onclick="addpro()">
-        <span class="p-3 text-white"><i class="fa-solid fa-coins me-2 fs-6"></i>Sell Product</span>
+      <button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill py-2 px-3 mx-1" data-bs-toggle="modal" data-bs-target="#sellModal" onclick="addpro()">
+        <span class="text-white"><i class="fa-solid fa-coins me-2 fs-6"></i>Sell Product</span>
     </button>
-    <button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill p-2" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addpro()">
-        <span class="p-3 text-white"><i class="fa-solid fa-cart-shopping me-2 fs-6"></i>Seles History</span>
+    <button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill py-2 px-3" data-bs-toggle="modal" data-bs-target="#SelesHistoryModal" onclick="addpro()">
+        <span class="text-white"><i class="fa-solid fa-cart-shopping me-2 fs-6"></i>Seles History</span>
     </button>
-    </div>
   </div>
 </div></div>
 </div>
@@ -192,9 +200,41 @@
 </div>
 <div style="background-color:#D6FFB7;" id="products" class="p-3 fs-5 d-flex justify-content-between align-items-center">
 <div>Products</div>
+<div >
+<button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill p-2" data-bs-toggle="dropdown" aria-expanded="false">
+  <span class="p-3 text-white"><i class="fa-solid fa-filter me-2 fs-6"></i>Filter Products</span>
+</button>
+<ul class="dropdown-menu ">
+  <form action="script.php" method="post" class="row justify-content-center gap-2">
+    <button type="submit" name="nameup" class="col-5 btn btn-success" >By Name<i class="fa-solid fa-arrow-up ms-2"></i></button>
+    <button type="submit" name="namedown" class="col-5 btn btn-success" >By Name<i class="fa-solid fa-arrow-down ms-2"></i></button>
+    <button type="submit" name="quantityup" class="col-5 btn btn-success">By Quantity<i class="fa-solid fa-arrow-up ms-2"></i></button>
+    <button type="submit" name="quantitydown" class="col-5 btn btn-success">By Quantity<i class="fa-solid fa-arrow-down ms-2"></i></button>
+    <div class="col-7">
+      <select class="form-select" aria-label="Default select example" id="category" name="categoryfilter" required>
+      <option value="0">Select A Category</option>
+      <?php  
+            global $conn;
+
+            $sql = 'SELECT * FROM `categories`';
+            $RES = mysqli_query($conn,$sql);
+            
+            while($row = mysqli_fetch_assoc($RES)){
+              echo '<option value="'.$row['category-name'].'">'.$row['category-name'].'</option>';
+            }
+      ?>
+    </select>
+    </div>
+    <button type="submit" name="categoryfilterbtn" class="col-3 btn btn-success">By Category</i></button>
+    <button type="submit" name="resetfilter" class="col-10 btn btn-success">Reset Filter<i class="fa-solid fa-repeat ms-2"></i></button>
+    
+    
+  </form>
+  </ul>
 <button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill p-2" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addpro()">
   <span class="p-3 text-white"><i class="fa-solid fa-plus me-2 fs-6"></i>Add Product</span>
 </button>
+</div>
 </div>
 <div class="row w-100 ps-3">
 <?php if (isset($_SESSION['message'])){
@@ -221,7 +261,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body d-flex align-items-center flex-column">
-      <i class="fa-solid fa-circle-exclamation text-danger fs-1 mb-3"></i>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 100px"><path fill="#d85b53" d="M12,7a1,1,0,0,0-1,1v4a1,1,0,0,0,2,0V8A1,1,0,0,0,12,7Zm0,8a1,1,0,1,0,1,1A1,1,0,0,0,12,15Zm9.71-7.44L16.44,2.29A1.05,1.05,0,0,0,15.73,2H8.27a1.05,1.05,0,0,0-.71.29L2.29,7.56A1.05,1.05,0,0,0,2,8.27v7.46a1.05,1.05,0,0,0,.29.71l5.27,5.27a1.05,1.05,0,0,0,.71.29h7.46a1.05,1.05,0,0,0,.71-.29l5.27-5.27a1.05,1.05,0,0,0,.29-.71V8.27A1.05,1.05,0,0,0,21.71,7.56ZM20,15.31,15.31,20H8.69L4,15.31V8.69L8.69,4h6.62L20,8.69Z" class="color000000 svgShape"/></svg>
         <h4>Do You Really Want To Delete This Product</h4> 
       </div>
       <form class="modal-footer" action="script.php" method="POST" id="form-task1">
@@ -241,7 +281,7 @@
         <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="script.php" method="post" id="form" enctype="multipart/form-data">
+      <form action="script.php" method="post" id="form" enctype="multipart/form-data" autocomplete="off">
       <div class="modal-body">
         <input type="hidden" id="idinput" name="idinput">
         <input type="hidden" id="imginput" name="imginput">
@@ -251,7 +291,7 @@
         </div>
       </div>
       <div class="form-floating mb-3">
-        <input type="text" class="form-control form-control-sm" id="name" placeholder=" " name="name" required>
+        <input type="text" class="form-control form-control-sm" id="name" placeholder=" " list="names" name="name" required>
         <label for="floatingInput">Name</label>
       </div>
       <div class="form-floating mb-3">
@@ -323,6 +363,97 @@
       </div>
       </form>
     </div>
+  </div>
+</div>
+<div class="modal fade" id="SelesHistoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Seles History</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseTwo" style="color : #D6FFB7; background-color: #3A5A40;box-shadow :none">
+          Today (<?=  date('d-m-y') ?>)
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+      <div class="">
+      <table class="table table-hover table-striped m-0" style="background-color: #D6FFB7;">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Tolal</th>
+                <th scope="col">Sold On</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+                saleshistory(date('y-m-d'),date('y-m-d',strtotime("+1 days")));
+                ?>
+            </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="color : #D6FFB7; background-color: #3A5A40;box-shadow :none">
+          This Week(<?= date('d-m-y',strtotime("-7 days")).' To '. date('d-m-y')?>)
+      </button>
+    </h2>
+    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+      <div class="">
+      <table class="table table-hover table-striped m-0" style="background-color: #D6FFB7;">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Tolal</th>
+                <th scope="col">Sold On</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+                saleshistory(date('y-m-d',strtotime("-7 days")),date('y-m-d',strtotime("+1 days")));
+                ?>
+            </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingThree">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" style="color : #D6FFB7; background-color: #3A5A40;box-shadow :none">
+            This Month(<?= date('d-m-y',strtotime("-30 days")).' To '. date('d-m-y')?>)
+      </button>
+    </h2>
+    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+      <div class="">
+      <table class="table table-hover table-striped m-0" style="background-color: #D6FFB7;">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Tolal</th>
+                <th scope="col">Sold On</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+                saleshistory(date('y-m-d',strtotime("-29 days")),date('y-m-d',strtotime("+1 days")));
+                ?>
+            </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+</div>
+ </div>
   </div>
 </div>
 </div>
