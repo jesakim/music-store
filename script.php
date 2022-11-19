@@ -230,16 +230,23 @@ function sellpro(){
         global $conn;
         $loginemail = datacheck($_POST['loginemail']);
         $loginpass = datacheck($_POST['loginpass']);
-        $loginreq = "SELECT * FROM `users` where email = '$loginemail' and password = '$loginpass';";
+        $loginreq = "SELECT * FROM `users` where email = '$loginemail' ";
         $res = mysqli_query($conn, $loginreq);
         $rest = mysqli_fetch_assoc($res);
-        if(mysqli_num_rows($res)!=0){
+        if( $loginpass == $rest['password']){
             $_SESSION['user']= $rest;
             $_SESSION['orderby'] = 'id';
             $_SESSION['flux'] = 'ASC';
             header('Location: index.php');
-        }else{
-            $_SESSION['message'] = 'The information you entered does not match our records';
+        }elseif( mysqli_num_rows($res) == 0){
+            $_SESSION['message'] = 'The Email you entered does not match our records';
+            $_SESSION['bgcolor'] = '#F8D7DA';
+            $_SESSION['headmsg'] = 'Sorry!';
+            $_SESSION['icon'] = 'fa-solid fa-xmar';
+            header('Location: signin.php');
+        }
+        else{
+            $_SESSION['message'] = 'The Password you entered does not match our records';
             $_SESSION['bgcolor'] = '#F8D7DA';
             $_SESSION['headmsg'] = 'Sorry!';
             $_SESSION['icon'] = 'fa-solid fa-xmar';
@@ -321,11 +328,11 @@ function sellpro(){
             }
             $RES = mysqli_query($conn,$sql);
             while($row = mysqli_fetch_assoc($RES)){
-            echo '<div class="col-12 col-sm-6 col-md-4 col-lg-3 p-1">
+            echo '<div class="col-12 col-sm-6 col-md-4 col-lg-3 p-1 procard" data="'.$row['name'].'">
             <div class="card">
             <div style="height: 250px;background-image:url(proimg/'.$row['img'].');background-position: center;background-repeat: no-repeat;background-size: cover;"></div>
               <div class="card-body">
-                <h4 class="card-title" id="title'.$row['id'].'" price="'.$row['price'].'" quantity="'.$row['quantity'].'" category="'.$row['category-id'].'" img="'.$row['img'].'" description="'.$row['description'].'">'.$row['name'].'</h4>
+                <h4 class="card-title text-truncate" title="'.$row['name'].'" id="title'.$row['id'].'" price="'.$row['price'].'" quantity="'.$row['quantity'].'" category="'.$row['category-id'].'" img="'.$row['img'].'" description="'.$row['description'].'">'.$row['name'].'</h4>
                 <a class="btn text-muted shadow-none p-0" data-bs-toggle="collapse" id="showdesc" data-bs-target="#collapse'.$row['id'].'" role="button" aria-expanded="false" aria-controls="collapse" onclick="showdesc(this)">
                     Show Details
                 </a>
@@ -338,7 +345,7 @@ function sellpro(){
                 </div>
                 <div class="card-footer w-100 bg-transparent row gap-2 justify-content-center m-0">
                   <a class="btn text-white shadow-none me-2 rounded-pill col-5" style="background-color: #3A5A40;" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="editpro('.$row["proid"].')">Edit<i class="fa-solid fa-pen ms-1 fs-6"></i></a>
-                  <a href="#exampleModalCenter" id="task-delete-btn" data-bs-toggle="modal" class="btn btn-danger shadow-none rounded-pill col-5" onclick="deletepro('.$row["proid"].')">Delete<i class="fa-solid fa-trash-can ms-1 fs-6"></i></a>
+                  <a href="#ModalCenter" id="task-delete-btn" data-bs-toggle="modal" class="btn btn-danger shadow-none rounded-pill col-5" onclick="deletepro('.$row["proid"].')">Delete<i class="fa-solid fa-trash-can ms-1 fs-6"></i></a>
                 </div>
               </div></div>
             ';

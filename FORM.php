@@ -23,6 +23,12 @@
     }
     // echo date('y-m-d',strtotime("-7 days"));
     // echo date('y-m-d'),strtotime("-1 days"));
+    $sql = "SELECT * FROM `products` ";
+    $RES = mysqli_query($conn,$sql);
+    print_r($row = mysqli_fetch_assoc($RES));
+    
+    // while($row = mysqli_fetch_assoc($RES)){
+    // print_r($row);}
 ?>
 
 

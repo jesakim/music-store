@@ -128,13 +128,15 @@ button[isactive]:hover {
     <div style="background-color: #3A5A40;height: 80px;width: 80px;color:#D6FFB7;" class="card-icon rounded-circle d-flex align-items-center justify-content-center">
     <i class="fa-solid fa-cart-shopping fs-3"></i>
     </div>
-      <button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill py-2 px-3 mx-1" data-bs-toggle="modal" data-bs-target="#sellModal" onclick="addpro()">
+    <div>
+      <button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill py-2 px-3 m-1" data-bs-toggle="modal" data-bs-target="#sellModal" onclick="addpro()">
         <span class="text-white"><i class="fa-solid fa-coins me-2 fs-6"></i>Sell Product</span>
     </button>
     <button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill py-2 px-3" data-bs-toggle="modal" data-bs-target="#SelesHistoryModal" onclick="addpro()">
         <span class="text-white"><i class="fa-solid fa-cart-shopping me-2 fs-6"></i>Seles History</span>
     </button>
   </div>
+</div>
 </div></div>
 </div>
 <div class="p-1 col-12 col-md-6">
@@ -198,13 +200,14 @@ button[isactive]:hover {
 </div>
 </div>
 </div>
-<div style="background-color:#D6FFB7;" id="products" class="p-3 fs-5 d-flex justify-content-between align-items-center">
-<div>Products</div>
-<div >
-<button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill p-2" data-bs-toggle="dropdown" aria-expanded="false">
+<div style="background-color:#D6FFB7;width: 100.8%;" id="products" class="p-3 fs-5 row justify-content-between align-items-center">
+<div class="col-3">Products</div>
+<div class="text-end col-9 m-0 p-0">
+  <input type="text" placeholder="Search By Name" class="ps-3 m-1 rounded-pill col-12 col-md-5 col-lg-3" id="searchpro" style="background: none;border: #3A5A40 solid 2px;outline: none;color: #3A5A40;" onkeyup="searchpro(this)">
+<button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill p-2 m-1 col-12 col-md-5 col-lg-3" data-bs-toggle="dropdown" aria-expanded="false">
   <span class="p-3 text-white"><i class="fa-solid fa-filter me-2 fs-6"></i>Filter Products</span>
 </button>
-<ul class="dropdown-menu ">
+<ul class="dropdown-menu">
   <form action="script.php" method="post" class="row justify-content-center gap-2">
     <button type="submit" name="nameup" class="col-5 btn btn-success" >By Name<i class="fa-solid fa-arrow-up ms-2"></i></button>
     <button type="submit" name="namedown" class="col-5 btn btn-success" >By Name<i class="fa-solid fa-arrow-down ms-2"></i></button>
@@ -231,7 +234,7 @@ button[isactive]:hover {
     
   </form>
   </ul>
-<button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill p-2" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addpro()">
+<button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill p-2  col-12 col-lg-3" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addpro()">
   <span class="p-3 text-white"><i class="fa-solid fa-plus me-2 fs-6"></i>Add Product</span>
 </button>
 </div>
@@ -465,6 +468,18 @@ button[isactive]:hover {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <script>
+  function searchpro($input){
+    let titles = document.getElementsByClassName('procard');
+    
+    for(let i=0;i<titles.length;i++){
+          if(!titles[i].getAttribute('data').toLocaleLowerCase().includes($input.value)){
+              titles[i].style.display = 'none';
+          }else{
+            titles[i].style.display = 'block';
+          }
+
+  }
+}
   function showTime(){
     var date = new Date();
     var h = date.getHours(); // 0 - 23
