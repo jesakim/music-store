@@ -200,7 +200,7 @@ button[isactive]:hover {
 </div>
 </div>
 </div>
-<div style="background-color:#D6FFB7;width: 100.8%;" id="products" class="p-3 fs-5 row justify-content-between align-items-center">
+<div style="background-color:#D6FFB7;width: 100vw;" id="products" class="p-3 fs-5 row justify-content-between align-items-center">
 <div class="col-3">Products</div>
 <div class="text-end col-9 m-0 p-0">
   <input type="text" placeholder="Search By Name" class="ps-3 m-1 rounded-pill col-12 col-md-5 col-lg-3" id="searchpro" style="background: none;border: #3A5A40 solid 2px;outline: none;color: #3A5A40;" onkeyup="searchpro(this)">
