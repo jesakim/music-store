@@ -23,12 +23,31 @@
     }
     // echo date('y-m-d',strtotime("-7 days"));
     // echo date('y-m-d'),strtotime("-1 days"));
-    $sql = "SELECT * FROM `products` ";
-    $RES = mysqli_query($conn,$sql);
-    print_r($row = mysqli_fetch_assoc($RES));
+    // $sql = "SELECT * FROM `products` ";
+    // $RES = mysqli_query($conn,$sql);
+    // print_r(mysqli_fetch_assoc($RES));
+    // echo "<br>";
+    
+    // print_r(mysqli_fetch_assoc($RES));
+    // echo "<br>";
+    // print_r(mysqli_fetch_assoc($RES));
+    // echo "<br>";
+    // print_r(mysqli_fetch_assoc($RES));
+    // echo "<br>";
+    // print_r(mysqli_fetch_assoc($RES));
     
     // while($row = mysqli_fetch_assoc($RES)){
-    // print_r($row);}
+    //       print_r($row);
+    //       echo "<br>";}
+    // $strhash = password_hash("jamal",PASSWORD_ARGON2ID);
+    // echo $strhash;
+
+    // echo "<br>";
+    // echo crypt('jamal','str');
+    // echo "<br>";
+    // echo "result";
+    // echo password_verify('jaal',$strhash);
+    $_POST['name'] = 'eeeeeeeeeeeee'
 ?>
 
 

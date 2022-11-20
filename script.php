@@ -117,7 +117,7 @@ function sellpro(){
         $_SESSION['message'] = 'You Have Only '.$row['quantity'].' Units In The Stock';
         $_SESSION['bgcolor'] = '#F8D7DA';
         $_SESSION['headmsg'] = 'Sorry!';
-        $_SESSION['icon'] = 'fa-solid fa-xmar';;
+        $_SESSION['icon'] = 'fa-solid fa-xmark';;
     }
     header('location:index.php');
 
@@ -233,24 +233,24 @@ function sellpro(){
         $loginreq = "SELECT * FROM `users` where email = '$loginemail' ";
         $res = mysqli_query($conn, $loginreq);
         $rest = mysqli_fetch_assoc($res);
-        if( $loginpass == $rest['password']){
+        if(password_verify($loginpass,$rest['password'])){
             $_SESSION['user']= $rest;
             $_SESSION['orderby'] = 'id';
             $_SESSION['flux'] = 'ASC';
             header('Location: index.php');
         }elseif( mysqli_num_rows($res) == 0){
-            $_SESSION['message'] = 'The Email you entered does not match our records';
+            $_SESSION['message'] = $loginemail.' does not match our records <br> <span style="cursor: default;" onclick="registerF()" class="ms-2">Click Here To Register With <strong>'.$loginemail.'</strong></span>';
             $_SESSION['bgcolor'] = '#F8D7DA';
             $_SESSION['headmsg'] = 'Sorry!';
-            $_SESSION['icon'] = 'fa-solid fa-xmar';
-            header('Location: signin.php');
+            $_SESSION['icon'] = 'fa-solid fa-xmark';
+            header('Location: signin.php?email='.$loginemail);
         }
         else{
             $_SESSION['message'] = 'The Password you entered does not match our records';
             $_SESSION['bgcolor'] = '#F8D7DA';
             $_SESSION['headmsg'] = 'Sorry!';
-            $_SESSION['icon'] = 'fa-solid fa-xmar';
-            header('Location: signin.php');
+            $_SESSION['icon'] = 'fa-solid fa-xmark';
+            header('Location: signin.php?email='.$loginemail);
         }
         
     }
@@ -296,6 +296,7 @@ function sellpro(){
             $_SESSION['headmsg'] = 'Failure!';
             $_SESSION['icon'] = 'fa-solid fa-xmark';
         }else{
+            $password = password_hash($password,PASSWORD_ARGON2ID);
             $sql = "INSERT INTO `users`(`username`, `email`, `password`) 
             VALUES ('$usernam','$email','$password')";
             mysqli_query($conn, $sql);
@@ -324,7 +325,7 @@ function sellpro(){
             
             if(isset($_SESSION['categoryfilter'])){
                 $categoryfilter = $_SESSION['categoryfilter'];
-                $sql = "SELECT products.id as proid ,products.*,`category-name` FROM `products` INNER JOIN categories on `category-id`=categories.id WHERE `category-name`=  '$categoryfilter' ";
+                $sql = "SELECT products.id as proid ,products.*,`category-name` FROM `products` INNER JOIN categories on `category-id`=categories.id WHERE `category-name`=  '$categoryfilter' and `user-id` = $userid ";
             }
             $RES = mysqli_query($conn,$sql);
             while($row = mysqli_fetch_assoc($RES)){
