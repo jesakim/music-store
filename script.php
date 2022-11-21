@@ -80,7 +80,8 @@ if(isset($_POST['categoryfilterbtn'])){
 
 function saleshistory($time1,$time2){
     global $conn;
-    $sql = "SELECT * FROM `sales` INNER JOIN products ON products.id = sales.product_id WHERE sales.date BETWEEN '$time1' and '$time2' ;";
+    $userid = $_SESSION['user']['id'];
+    $sql = "SELECT * FROM `sales` INNER JOIN products ON products.id = sales.product_id WHERE `user-id` = $userid AND sales.date BETWEEN '$time1' and '$time2' ;";
     $res = mysqli_query($conn,$sql);
 
     while($row = mysqli_fetch_assoc($res)){
@@ -123,7 +124,7 @@ function sellpro(){
 
 }
 
-    function checkstock(){
+function checkstock(){
           global $conn;
           $userid = $_SESSION['user']['id'];
           $ntc = 5;
@@ -136,7 +137,7 @@ function sellpro(){
                     <dd class="ms-2 text-danger">- Quantity : '.$row['quantity'].'</dd>';
           }}
     }
-    function raslmale(){
+function raslmale($pa = 0){
         global $conn;
           $userid = $_SESSION['user']['id'];
           $raslmal = 0;
@@ -145,7 +146,11 @@ function sellpro(){
           while($row = mysqli_fetch_assoc($res)){
             $raslmal += $row['price'] * $row['quantity'];
           }
-          return $raslmal;
+          if($pa == 0)return $raslmal;
+          else{
+            return $raslmal/10000;
+          }
+          
     }
     function signout(){
         session_destroy();
@@ -237,40 +242,50 @@ function sellpro(){
             $_SESSION['user']= $rest;
             $_SESSION['orderby'] = 'id';
             $_SESSION['flux'] = 'ASC';
+            if(isset($_POST['RMcheckbox'])) 
+            {
+                setcookie('email_cookie',$loginemail,time() + 3600,'/');   
+                setcookie('password_cookie',$loginpass,time() + 3600,'/');
+            }else{
+                setcookie('email_cookie','',time() - 3600,'/');   
+                setcookie('password_cookie','',time() - 3600,'/');
+            }
             header('Location: index.php');
         }elseif( mysqli_num_rows($res) == 0){
+            setcookie('email_cookie',$loginemail,time()+3600,'/');
             $_SESSION['message'] = $loginemail.' does not match our records <br> <span style="cursor: default;" onclick="registerF()" class="ms-2">Click Here To Register With <strong>'.$loginemail.'</strong></span>';
             $_SESSION['bgcolor'] = '#F8D7DA';
             $_SESSION['headmsg'] = 'Sorry!';
             $_SESSION['icon'] = 'fa-solid fa-xmark';
-            header('Location: signin.php?email='.$loginemail);
+            header('Location: signin.php');
         }
         else{
+            setcookie('email_cookie',$loginemail,time()+3600,'/');
             $_SESSION['message'] = 'The Password you entered does not match our records';
             $_SESSION['bgcolor'] = '#F8D7DA';
             $_SESSION['headmsg'] = 'Sorry!';
             $_SESSION['icon'] = 'fa-solid fa-xmark';
-            header('Location: signin.php?email='.$loginemail);
+            header('Location: signin.php');
         }
         
     }
     function register(){
         global $conn;
-        $usernam = datacheck($_POST['username']);
+        $username = datacheck($_POST['username']);
         $email = datacheck($_POST['email']);
         $password = datacheck($_POST['password']);
         $rpassword = datacheck($_POST['rpassword']);
-        $usernamecheck = "SELECT * FROM `users` where username = '$usernam';";
+        $usernamecheck = "SELECT * FROM `users` where username = '$username';";
         $usernamres = mysqli_query($conn, $usernamecheck);
         $emailcheck = "SELECT * FROM `users` where email = '$email';";
         $emailres = mysqli_query($conn, $emailcheck);
 
-        if(empty($email) || empty($password) || empty($usernam) || empty($rpassword)){
+        if(empty($email) || empty($password) || empty($username) || empty($rpassword)){
             $_SESSION['message'] = 'All Inputs Are Required';
             $_SESSION['bgcolor'] = '#F8D7DA';
             $_SESSION['headmsg'] = 'Failure!';
             $_SESSION['icon'] = 'fa-solid fa-xmark';
-        }elseif(!preg_match("/^[a-zA-Z-' ]*$/",$usernam)){
+        }elseif(!preg_match("/^[a-zA-Z-' ]*$/",$username)){
             $_SESSION['message'] = 'Only Letters And White Space Allowed In The UserName';
             $_SESSION['bgcolor'] = '#F8D7DA';
             $_SESSION['headmsg'] = 'Failure!';
@@ -298,8 +313,9 @@ function sellpro(){
         }else{
             $password = password_hash($password,PASSWORD_ARGON2ID);
             $sql = "INSERT INTO `users`(`username`, `email`, `password`) 
-            VALUES ('$usernam','$email','$password')";
+            VALUES ('$username','$email','$password')";
             mysqli_query($conn, $sql);
+            setcookie('email_cookie',$email,time()+3600,'/');
             $_SESSION['message'] = 'You Are Registred Now';
             $_SESSION['bgcolor'] = '#D6FFB7';
             $_SESSION['headmsg'] = 'Success!';

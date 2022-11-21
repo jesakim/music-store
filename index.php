@@ -125,7 +125,7 @@ button[isactive]:hover {
   <h5 class="card-title">Sales</h5>
 
   <div class="d-flex align-items-center">
-    <div style="background-color: #3A5A40;height: 80px;width: 80px;color:#D6FFB7;" class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+    <div style="background-color: #3A5A40;height: 80px;width: 80px;color:#D6FFB7;" class="card-icon rounded-circle d-flex align-items-center justify-content-center me-2">
     <i class="fa-solid fa-cart-shopping fs-3"></i>
     </div>
     <div>
@@ -165,11 +165,14 @@ button[isactive]:hover {
   <h5 class="card-title">RasLmale</h5>
 
   <div class="d-flex align-items-center">
-    <div style="background-color: #3A5A40;height: 80px;width: 80px;color:#D6FFB7;" class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+    <div style="background-color: #3A5A40;height: 80px;width: 80px;color:#D6FFB7;" class="card-icon rounded-circle d-flex align-items-center justify-content-center me-2">
     <i class="fa-solid fa-coins fs-3"></i>
     </div>
-    <div class="ps-4">
+    <div class="w-75">
       <h3><?=  raslmale().' DHS'  ?></h3>
+      <div class="progress mt-1" data-height="8" style="height: 8px;width: 100%;background-color: #D6FFB7;">
+            <div class="progress-bar" data-width="25%" style="width:<?=  raslmale(1)?>%;background-color: #3A5A40;"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -260,7 +263,7 @@ button[isactive]:hover {
 
 <!-- modal -->
 <!-- Button trigger modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body d-flex align-items-center flex-column">
@@ -472,7 +475,7 @@ button[isactive]:hover {
     let titles = document.getElementsByClassName('procard');
     
     for(let i=0;i<titles.length;i++){
-          if(!titles[i].getAttribute('data').toLocaleLowerCase().includes($input.value)){
+          if(!titles[i].getAttribute('data').toLowerCase().includes($input.value.toLowerCase())){
               titles[i].style.display = 'none';
           }else{
             titles[i].style.display = 'block';

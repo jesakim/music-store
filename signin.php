@@ -1,5 +1,8 @@
 <?php  
     include("script.php");
+    if(isset($_SESSION['user'])){
+        header('Location: index.php');
+  }
     
 
 ?>
@@ -37,11 +40,11 @@
           
       <form action="script.php" id="formbody" class="mb-2" method="post">
         <div class="form-outline mb-4">
-            <input type="email" id="loginName" name="loginemail" class="rounded-pill w-100" placeholder=" " value = "<?php if(isset($_GET['email'])){ echo $_GET['email'];} ?>"  required oninvalid="setCustomValidity('Please Entre A Valid Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
+            <input type="email" id="loginName" name="loginemail" class="rounded-pill w-100" placeholder=" " value = "<?php if(isset($_COOKIE['email_cookie'])) echo $_COOKIE['email_cookie']; ?>"  required oninvalid="setCustomValidity('Please Entre A Valid Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
             <label class="form-label" for="loginName" id="NameLabel">Email</label>
         </div>
         <div class="form-outline">
-            <input type="password" id="loginPassword" name="loginpass" class="rounded-pill w-100" placeholder=" " required onkeyup="counter()" oninvalid="setCustomValidity('Please Entre Password');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
+            <input type="password" id="loginPassword" name="loginpass" class="rounded-pill w-100" placeholder=" " value="<?php if(isset($_COOKIE['password_cookie'])) echo $_COOKIE['password_cookie']; ?>" required onkeyup="counter()" oninvalid="setCustomValidity('Please Entre Password');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
             <label class="form-label" for="loginPassword" id="PasswordLabel">Password</label>
             <span class="input-group-append" id="icon1">
                 <i class="fa-regular fa-eye text-white p-2" onclick="displayPassword()"></i>
@@ -53,7 +56,7 @@
               <!-- Checkbox -->
               <div class="my-3 d-flex justify-content-between">
                 <div class="form-check form-switch ms-4">
-                <input id="flexSwitchCheckDefault" class="form-check-input" type="checkbox" value=""/>
+                <input id="flexSwitchCheckDefault" class="form-check-input" type="checkbox" name="RMcheckbox"/>
                 <label class="form-check-label text-white" for="loginCheck">Remember me</label></div>
                 <button style="color: #D6FFB7;" class="btn me-4 bg-transparent p-0" onclick="passReset()">Forgot password?</button>
               </div>
@@ -97,11 +100,11 @@ function signinF(){
     document.getElementById("buttonS").style.color = "#D6FFB7",
     document.getElementById("formbody").innerHTML = `
     <div class="form-outline mb-4">
-            <input type="email" id="loginName" name="loginemail" class="rounded-pill w-100" placeholder=" " value = "<?php  if(isset($_GET['email'])){ echo $_GET['email'];} ?>" required oninvalid="setCustomValidity('Please Entre A Valid Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
+            <input type="email" id="loginName" name="loginemail" class="rounded-pill w-100" placeholder=" " value = "<?php  if(isset($_COOKIE['email_cookie'])) echo $_COOKIE['email_cookie']; ?>" required oninvalid="setCustomValidity('Please Entre A Valid Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
             <label class="form-label" for="loginName" id="NameLabel">Email</label>
         </div>
         <div class="form-outline">
-            <input type="password" id="loginPassword" name="loginpass" class="rounded-pill w-100" placeholder=" " required onkeyup="counter()" oninvalid="setCustomValidity('Please Entre Password');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
+            <input type="password" id="loginPassword" name="loginpass" class="rounded-pill w-100" placeholder=" " value="<?php if(isset($_COOKIE['password_cookie'])) echo $_COOKIE['password_cookie']; ?>" required onkeyup="counter()" oninvalid="setCustomValidity('Please Entre Password');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red'" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
             <label class="form-label" for="loginPassword" id="PasswordLabel">Password</label>
             <span class="input-group-append" id="icon1">
                 <i class="fa-regular fa-eye text-white p-2" onclick="displayPassword()"></i>
@@ -131,7 +134,7 @@ function registerF(){
         <label class="form-label" for="loginName">UserName</label>
     </div>
     <div class="form-outline mb-4">
-        <input type="email" id="loginEmail" name="email" class="rounded-pill w-100" value = "<?php if(isset($_GET['email'])){ echo $_GET['email'];} ?>" placeholder=" " required oninvalid="setCustomValidity('Please Entre A Valid Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red';" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
+        <input type="email" id="loginEmail" name="email" class="rounded-pill w-100" value = "<?php if(isset($_COOKIE['email_cookie'])) echo $_COOKIE['email_cookie']; ?>" placeholder=" " required oninvalid="setCustomValidity('Please Entre A Valid Email');this.style.border = 'red solid 2px';this.nextElementSibling.style.color = 'red';" oninput="setCustomValidity('');this.style.border = '#D6FFB7 solid 2px';this.nextElementSibling.style.color = '#3A5A40'"/>
         <label class="form-label" for="loginName">Email</label>
     </div>
     <div class="form-outline mb-4">
