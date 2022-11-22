@@ -124,15 +124,15 @@ button[isactive]:hover {
 <div class="card-body">
   <h5 class="card-title">Sales</h5>
 
-  <div class="d-flex align-items-center">
-    <div style="background-color: #3A5A40;height: 80px;width: 80px;color:#D6FFB7;" class="card-icon rounded-circle d-flex align-items-center justify-content-center me-2">
+  <div class="d-flex align-items-between">
+    <div style="background-color: #3A5A40;height: 80px;width: 80px;color:#D6FFB7;" class="card-icon rounded-circle d-flex align-items-center justify-content-center pe-1">
     <i class="fa-solid fa-cart-shopping fs-3"></i>
     </div>
-    <div>
-      <button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill py-2 px-3 m-1" data-bs-toggle="modal" data-bs-target="#sellModal" onclick="addpro()">
+    <div class="row justify-content-center align-items-center w-75 ">
+      <button style="background-color:#3A5A40;border:none;" type="button" class="col-9 col-md-5 rounded-pill py-2 px-3 m-1" data-bs-toggle="modal" data-bs-target="#sellModal" onclick="addpro()">
         <span class="text-white"><i class="fa-solid fa-coins me-2 fs-6"></i>Sell Product</span>
     </button>
-    <button style="background-color:#3A5A40;border:none;" type="button" class="rounded-pill py-2 px-3" data-bs-toggle="modal" data-bs-target="#SelesHistoryModal" onclick="addpro()">
+    <button style="background-color:#3A5A40;border:none;" type="button" class="col-9 col-md-5 rounded-pill py-2 px-3" data-bs-toggle="modal" data-bs-target="#SelesHistoryModal" onclick="addpro()">
         <span class="text-white"><i class="fa-solid fa-cart-shopping me-2 fs-6"></i>Seles History</span>
     </button>
   </div>
