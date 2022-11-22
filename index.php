@@ -169,9 +169,9 @@ button[isactive]:hover {
     <i class="fa-solid fa-coins fs-3"></i>
     </div>
     <div class="w-75">
-      <h3><?=  raslmale().' DHS'  ?></h3>
+      <h3><?=  raslmale().' DHS' ?></h3>
       <div class="progress mt-1" data-height="8" style="height: 8px;width: 100%;background-color: #D6FFB7;">
-            <div class="progress-bar" data-width="25%" style="width:<?=  raslmale(1)?>%;background-color: #3A5A40;"></div>
+            <div class="progress-bar" data-width="25%" style="width:<?=  raslmale(1) ?>%;background-color: #3A5A40;"></div>
       </div>
     </div>
   </div>
