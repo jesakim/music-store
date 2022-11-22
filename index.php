@@ -190,7 +190,7 @@ button[isactive]:hover {
     <i class="fa-solid fa-arrow-trend-down fs-3"></i>
     </div>
     <div class="ps-4">
-      <div class="btn-group dropend">
+      <div class="btn-group">
   <button type="button" style="background-color: #3A5A40;color:#D6FFB7;" class="btn shadow-none rounded-pill dropdown-toggle py-2 px-3" data-bs-toggle="dropdown" name="tocheck" aria-expanded="false">
   Check Stock</button>
   <dl class="dropdown-menu" style="overflow: auto;height: 130px;">
